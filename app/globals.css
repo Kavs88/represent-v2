@@ -1,0 +1,131 @@
+:root {
+  --background: 14 14 14; /* rgb(14, 14, 14) */
+  --foreground: 229 229 229; /* rgb(229, 229, 229) */
+  --primary: 0 255 157; /* rgb(0, 255, 157) - Neon Green */
+  --muted: 136 136 136; /* rgb(136, 136, 136) */
+  --card: 20 20 20;
+  --border: 40 40 40;
+}
+
+/* Performance optimizations */
+html { 
+  cursor: none; 
+  /* Optimize for performance */
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 374px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Ensure touch targets are large enough */
+button, a, input, textarea, select {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Prevent zoom on input focus on iOS */
+input, textarea, select {
+  font-size: 16px !important;
+}
+
+/* Improve touch scrolling with hardware acceleration */
+* {
+  -webkit-overflow-scrolling: touch;
+  /* Optimize for GPU acceleration */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Better focus indicators for accessibility */
+button:focus, a:focus, input:focus, textarea:focus, select:focus {
+  outline: 2px solid rgb(0, 255, 157);
+  outline-offset: 2px;
+}
+
+/* Performance-optimized animations */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+}
+
+/* Optimize animations for performance */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optimized background with reduced repaints */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><g fill-opacity="0.12"><circle fill="%2300ff9d" cx="400" cy="400" r="600"/><circle fill="%231a1a1a" cx="400" cy="400" r="500"/><circle fill="%23101010" cx="400" cy="400" r="400"/><circle fill="%230E0E0E" cx="400" cy="400" r="300"/><circle fill="%23050505" cx="400" cy="400" r="200"/><circle fill="%23000000" cx="400" cy="400" r="100"/></g></svg>');
+  background-size: cover;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: -1;
+  /* Optimize animation performance */
+  will-change: transform;
+  transform: translateZ(0);
+  animation: grain 8s steps(10) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0) translateZ(0); }
+  10% { transform: translate(-5%, -10%) translateZ(0); }
+  20% { transform: translate(-15%, 5%) translateZ(0); }
+  30% { transform: translate(7%, -25%) translateZ(0); }
+  40% { transform: translate(-5%, 25%) translateZ(0); }
+  50% { transform: translate(-15%, 10%) translateZ(0); }
+  60% { transform: translate(15%, 0%) translateZ(0); }
+  70% { transform: translate(0%, 15%) translateZ(0); }
+  80% { transform: translate(3%, 35%) translateZ(0); }
+  90% { transform: translate(-10%, 10%) translateZ(0); }
+}
+
+/* Performance utilities */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.no-repaint {
+  will-change: auto;
+}
+
+.optimize-animation {
+  will-change: transform, opacity;
+} 
