@@ -1,8 +1,9 @@
 "use client";
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll';
 import SEOHead from '@/components/ui/SEOHead';
+import LinkWithCursor from '@/components/ui/LinkWithCursor';
 
 // Animation variants
 const fadeUp = {
@@ -19,7 +20,7 @@ const staggerContainer = {
   }
 };
 
-export default function AboutPage() {
+const AboutPage = memo(function AboutPage() {
   return (
     <>
       <SEOHead 
@@ -31,16 +32,15 @@ export default function AboutPage() {
       
       <div className="min-h-screen bg-background text-foreground">
         {/* Hero Section */}
-        <section className="relative pt-8 xs:pt-10 sm:pt-12 lg:pt-16 pb-4 xs:pb-6 sm:pb-8 lg:pb-10 overflow-hidden bg-background">
-          {/* Background Pattern */}
-          <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/20">
-            <div className="absolute inset-0 opacity-30" style={{
-              backgroundImage: `
-                repeating-linear-gradient(45deg, transparent, transparent 60px, rgba(0,255,157,0.1) 60px, rgba(0,255,157,0.1) 62px),
-                repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(0,255,157,0.1) 60px, rgba(0,255,157,0.1) 62px)
-              `,
-              backgroundSize: '120px 120px, 120px 120px'
-            }} />
+        <section className="relative h-[600px] flex items-center justify-center text-center overflow-hidden py-12 px-4">
+          {/* Enhanced background with texture */}
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0e0e0e] via-[#1a1a1a] to-[#0e0e0e] opacity-100"></div>
+            <div className="absolute inset-0 opacity-40" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ccircle cx='40' cy='40' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+            }}></div>
+            <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-r from-primary to-green-500 rounded-full blur-3xl animate-pulse opacity-30"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-l from-primary to-green-500 rounded-full blur-3xl animate-pulse delay-1000 opacity-30"></div>
           </div>
           
           <div className="relative z-10 max-w-4xl mx-auto px-3 xs:px-4 sm:px-6 text-center">
@@ -65,7 +65,24 @@ export default function AboutPage() {
         </div>
 
         {/* Mission Section with Animated Image */}
-        <section className="py-8 xs:py-12 sm:py-16 lg:py-20 px-3 xs:px-4 sm:px-6 relative overflow-visible bg-muted/10">
+        <section className="py-12 relative overflow-hidden">
+          {/* Deep teal background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364]"></div>
+          
+          {/* Teal depth layers */}
+          <div className="absolute inset-0">
+            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-teal-600/20 via-teal-500/10 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-teal-700/20 via-teal-600/10 to-transparent"></div>
+            <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-teal-600/15 via-teal-500/8 to-transparent"></div>
+            <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-teal-600/15 via-teal-500/8 to-transparent"></div>
+          </div>
+          
+          {/* Vibrant orange accents */}
+          <div className="absolute inset-0">
+            <div className="absolute top-0 left-1/4 w-64 h-64 bg-gradient-to-b from-orange-500/35 via-orange-400/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-gradient-to-t from-orange-600/30 via-orange-500/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-orange-400/25 via-orange-300/15 to-transparent rounded-full blur-3xl animate-pulse delay-500"></div>
+          </div>
           <div className="max-w-4xl mx-auto relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
             {/* Exhibition Image left */}
             <div className="w-full max-w-xs md:max-w-sm lg:max-w-md h-full flex items-center justify-center md:items-stretch md:justify-start">
@@ -101,7 +118,14 @@ export default function AboutPage() {
         </section>
 
         {/* Values Section */}
-        <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-background">
+        <section className="py-12 relative bg-black overflow-hidden">
+          {/* Spotlight effect */}
+          <div className="absolute inset-0 z-0">
+            {/* Multiple spotlight beams */}
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-b from-[#00ff9d]/50 via-[#00ff9d]/25 to-transparent rounded-full blur-3xl animate-pulse opacity-90"></div>
+            <div className="absolute top-0 right-1/4 w-96 h-96 bg-gradient-to-b from-[#22c55e]/50 via-[#22c55e]/25 to-transparent rounded-full blur-3xl animate-pulse delay-1000 opacity-90"></div>
+            <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-gradient-to-t from-[#00ff9d]/40 via-[#00ff9d]/20 to-transparent rounded-full blur-3xl animate-pulse delay-500 opacity-90"></div>
+          </div>
           <div className="max-w-6xl mx-auto">
             <motion.div 
               variants={fadeUp}
@@ -259,7 +283,7 @@ export default function AboutPage() {
               </div>
               
               <div className="text-center mt-12">
-                <a 
+                <LinkWithCursor 
                   href="/contact" 
                   className="inline-flex items-center gap-3 font-bold px-8 py-4 rounded-full hover:opacity-90 transition-opacity"
                   style={{ backgroundColor: '#17624A', color: '#fff' }}
@@ -268,7 +292,7 @@ export default function AboutPage() {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
-                </a>
+                </LinkWithCursor>
               </div>
             </motion.div>
           </div>
@@ -276,4 +300,6 @@ export default function AboutPage() {
       </div>
     </>
   );
-} 
+});
+
+export default AboutPage; 

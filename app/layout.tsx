@@ -7,6 +7,7 @@ import Header from "../components/layout/Header"
 import Footer from "../components/layout/Footer"
 import { GlobalMotionWrapper } from '@/components/ui/GlobalMotionWrapper'
 import PageTransitionWrapper from '@/components/layout/PageTransitionWrapper'
+import PerformanceMonitor from '@/components/ui/PerformanceMonitor'
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 // Lora is now self-hosted via CSS
@@ -94,6 +95,7 @@ export default function RootLayout({
         <meta name="msapplication-config" content="/browserconfig.xml" />
       </head>
       <body className="bg-background font-sans text-foreground flex flex-col min-h-screen">
+        <PerformanceMonitor />
         <GlobalMotionWrapper>
           <Header />
           <PageTransitionWrapper>

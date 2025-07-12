@@ -4,6 +4,44 @@ import Airtable from "airtable";
 import { z } from "zod";
 
 // ==================================
+// PERFORMANCE OPTIMIZATIONS
+// ==================================
+
+// In-memory cache for better performance
+const cache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+// Cache helper functions
+const getCachedData = (key: string) => {
+  const cached = cache.get(key);
+  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+    return cached.data;
+  }
+  return null;
+};
+
+const setCachedData = (key: string, data: any) => {
+  cache.set(key, { data, timestamp: Date.now() });
+};
+
+// Rate limiting to prevent API abuse
+let lastRequestTime = 0;
+const MIN_REQUEST_INTERVAL = 100; // 100ms between requests
+
+const throttleRequest = async () => {
+  const now = Date.now();
+  const timeSinceLastRequest = now - lastRequestTime;
+  
+  if (timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
+    await new Promise(resolve => 
+      setTimeout(resolve, MIN_REQUEST_INTERVAL - timeSinceLastRequest)
+    );
+  }
+  
+  lastRequestTime = Date.now();
+};
+
+// ==================================
 // SCHEMAS & TYPES ARE NOW DEFINED HERE
 // ==================================
 
@@ -54,36 +92,11 @@ export type Review = z.infer<typeof reviewSchema>;
 // AIRTABLE CONFIG & FUNCTIONS
 // ==================================
 
-// Validate environment variables
-if (!process.env.AIRTABLE_API_KEY) {
-  throw new Error('AIRTABLE_API_KEY environment variable is required');
-}
-
-if (!process.env.AIRTABLE_BASE_ID) {
-  throw new Error('AIRTABLE_BASE_ID environment variable is required');
-}
-
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.AIRTABLE_BASE_ID as string
 );
 const table = base("Artists");
 const reviewsTable = base("Reviews");
-
-// Simple in-memory cache for better performance
-const cache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
-
-const getCachedData = (key: string) => {
-  const cached = cache.get(key);
-  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-    return cached.data;
-  }
-  return null;
-};
-
-const setCachedData = (key: string, data: any) => {
-  cache.set(key, { data, timestamp: Date.now() });
-};
 
 // ==================================
 // Internal Record Processor (The Guard)
@@ -91,19 +104,14 @@ const setCachedData = (key: string, data: any) => {
 // ==================================
 
 const processRecords = (records: any[]): Artist[] => {
-  try {
-    const validated = z.array(artistSchema).safeParse(
-      records.map(r => ({ id: r.id, fields: r.fields }))
-    );
-    if (!validated.success) {
-      console.error("Zod Validation Error:", validated.error.flatten());
-      return [];
-    }
-    return validated.data;
-  } catch (error) {
-    console.error("Error processing records:", error);
+  const validated = z.array(artistSchema).safeParse(
+    records.map(r => ({ id: r.id, fields: r.fields }))
+  );
+  if (!validated.success) {
+    console.error("Zod Validation Error:", validated.error.flatten());
     return [];
   }
+  return validated.data;
 };
 
 // ==================================
@@ -113,6 +121,7 @@ const processRecords = (records: any[]): Artist[] => {
 /**
  * Fetches all artists, or only featured artists.
  * Returns a clean, validated array of Artist objects.
+ * Now includes caching for better performance.
  */
 export const getArtists = async (options: { featuredOnly?: boolean } = {}): Promise<Artist[]> => {
   try {
@@ -123,13 +132,23 @@ export const getArtists = async (options: { featuredOnly?: boolean } = {}): Prom
       return cached;
     }
     
-    // Optimize field selection based on usage
-    const fields = options.featuredOnly 
-      ? ["Name", "Speciality", "ProfileImage", "Artwork", "Tags", "Featured", "ThemePrimaryColor"]
-      : ["Name", "Speciality", "Bio", "ProfileImage", "Artwork", "SocialLinks", "Tags", "Featured", "GeneratedBannerImage", "ThemePrimaryColor", "ThemeBackgroundColor", "ThemeTextColor"];
+    await throttleRequest();
     
     const query = table.select({
-      fields,
+      fields: [
+        "Name",
+        "Speciality",
+        "Bio",
+        "ProfileImage",
+        "Artwork",
+        "SocialLinks",
+        "Tags",
+        "Featured",
+        "GeneratedBannerImage",
+        "ThemePrimaryColor",
+        "ThemeBackgroundColor",
+        "ThemeTextColor"
+      ],
       sort: [{ field: "Name", direction: "asc" }],
       filterByFormula: options.featuredOnly ? "{Featured} = 1" : "",
     });
@@ -164,20 +183,18 @@ function processRecord(record: any): Artist | null {
  * Fetches a single artist by their Record ID.
  * This is the new, "bulletproof" version to prevent 404 crashes.
  * Returns a single Artist object or null if not found.
+ * Now includes caching for better performance.
  */
 export const getArtistById = async (id: string): Promise<Artist | null> => {
   try {
-    if (!id || typeof id !== 'string') {
-      console.error("Invalid artist ID provided:", id);
-      return null;
-    }
-
     const cacheKey = `artist_${id}`;
     const cached = getCachedData(cacheKey);
     
     if (cached) {
       return cached;
     }
+    
+    await throttleRequest();
     
     const query = table.select({
       fields: [
@@ -216,6 +233,7 @@ export const getArtistById = async (id: string): Promise<Artist | null> => {
 /**
  * Fetches all unique tags from all artists.
  * Returns a simple array of strings.
+ * Now includes caching for better performance.
  */
 export const getAllTags = async (): Promise<string[]> => {
   try {
@@ -225,6 +243,8 @@ export const getAllTags = async (): Promise<string[]> => {
     if (cached) {
       return cached;
     }
+    
+    await throttleRequest();
     
     const records = await table.select({ fields: ["Tags"] }).all();
     const tagSets = records.map((record) => (record.get("Tags") as string[]) || []);
@@ -241,14 +261,10 @@ export const getAllTags = async (): Promise<string[]> => {
 /**
  * Fetches reviews for a specific artist.
  * Returns approved reviews only, sorted by featured first, then date.
+ * Now includes caching for better performance.
  */
 export const getArtistReviews = async (artistId: string): Promise<Review[]> => {
   try {
-    if (!artistId || typeof artistId !== 'string') {
-      console.error("Invalid artist ID provided for reviews:", artistId);
-      return [];
-    }
-
     const cacheKey = `reviews_${artistId}`;
     const cached = getCachedData(cacheKey);
     
@@ -256,13 +272,37 @@ export const getArtistReviews = async (artistId: string): Promise<Review[]> => {
       return cached;
     }
     
-    const allRecords = await reviewsTable.select().all();
+    await throttleRequest();
+    
+    console.log(`Fetching reviews for artist ID: ${artistId}`);
+    
+    // First, let's get ALL records without specifying fields to see what field names exist
+    const allReviewsQuery = reviewsTable.select();
+    
+    const allRecords = await allReviewsQuery.all();
+    console.log(`Found ${allRecords.length} total reviews`);
+    
+    // Log each record to see what we have
+    allRecords.forEach((record, index) => {
+      console.log(`Review ${index + 1}:`, {
+        id: record.id,
+        fields: record.fields,
+        artist: record.get("Artist"),
+        text: record.get("Review Text"),
+        date: record.get("Date"),
+        featured: record.get("Featured"),
+        approved: record.get("Approved")
+      });
+    });
     
     // Filter reviews that match the artist ID
     const filteredRecords = allRecords.filter(record => {
       const artistField = record.get("Artist");
+      console.log(`Review ${record.id} artist field:`, artistField);
       return artistField && Array.isArray(artistField) && artistField.includes(artistId);
     });
+    
+    console.log(`Filtered to ${filteredRecords.length} reviews for artist ${artistId}`);
     
     const reviews: Review[] = filteredRecords.map(record => {
       const artistField = record.get("Artist") as string[];
@@ -284,10 +324,58 @@ export const getArtistReviews = async (artistId: string): Promise<Review[]> => {
       };
     });
     
+    console.log(`Returning ${reviews.length} reviews`);
+    
     setCachedData(cacheKey, reviews);
     return reviews;
   } catch (error) {
     console.error('Airtable API error in getArtistReviews:', error);
+    return [];
+  }
+};
+
+/**
+ * Batch fetch multiple artists by IDs for better performance
+ */
+export const getArtistsByIds = async (ids: string[]): Promise<Artist[]> => {
+  try {
+    if (ids.length === 0) return [];
+    
+    const cacheKey = `artists_batch_${ids.sort().join('_')}`;
+    const cached = getCachedData(cacheKey);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    await throttleRequest();
+    
+    const filterFormula = ids.map(id => `RECORD_ID() = '${id}'`).join(' OR ');
+    const query = table.select({
+      fields: [
+        "Name",
+        "Speciality",
+        "Bio",
+        "ProfileImage",
+        "Artwork",
+        "SocialLinks",
+        "Tags",
+        "Featured",
+        "GeneratedBannerImage",
+        "ThemePrimaryColor",
+        "ThemeBackgroundColor",
+        "ThemeTextColor"
+      ],
+      filterByFormula: `OR(${filterFormula})`,
+    });
+    
+    const records = await query.all();
+    const processed = processRecords([...records]);
+    
+    setCachedData(cacheKey, processed);
+    return processed;
+  } catch (error) {
+    console.error("Airtable API error in getArtistsByIds:", error);
     return [];
   }
 };

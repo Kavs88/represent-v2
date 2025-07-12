@@ -1,66 +1,37 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { CursorProvider, useCursor } from './CursorContext';
 
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { isHovering } = useCursor();
-  const rafRef = useRef<number | undefined>(undefined);
-
-  const updateMousePosition = useCallback((e: MouseEvent) => {
-    if (rafRef.current) {
-      cancelAnimationFrame(rafRef.current);
-    }
-    
-    rafRef.current = requestAnimationFrame(() => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    });
-  }, []);
 
   useEffect(() => {
-    window.addEventListener('mousemove', updateMousePosition, { passive: true });
-    return () => {
-      window.removeEventListener('mousemove', updateMousePosition);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
+    const onMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
     };
-  }, [updateMousePosition]);
+    window.addEventListener('mousemove', onMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+    };
+  }, []);
 
   return (
     <>
       {/* Dot - Always visible */}
       <motion.div
         className="hidden md:block fixed top-0 left-0 w-3 h-3 rounded-full bg-primary pointer-events-none z-[9999]"
-        style={{ 
-          translateX: mousePosition.x - 6, 
-          translateY: mousePosition.y - 6,
-          willChange: 'transform'
-        }}
-        transition={{ 
-          type: 'spring', 
-          stiffness: 300, 
-          damping: 25,
-          mass: 0.5
-        }}
+        style={{ translateX: mousePosition.x - 6, translateY: mousePosition.y - 6 }}
+        transition={{ type: 'spring', stiffness: 200, damping: 20 }}
       />
       {/* Ring - Expands on hover */}
       <motion.div
         className="hidden md:block fixed top-0 left-0 w-8 h-8 rounded-full border-2 border-primary pointer-events-none z-[9998]"
-        style={{ 
-          translateX: mousePosition.x - 16, 
-          translateY: mousePosition.y - 16,
-          willChange: 'transform'
-        }}
+        style={{ translateX: mousePosition.x - 16, translateY: mousePosition.y - 16 }}
         animate={{ scale: isHovering ? 1 : 0 }}
-        transition={{ 
-          type: 'spring', 
-          stiffness: 300, 
-          damping: 25,
-          mass: 0.5
-        }}
+        transition={{ type: 'spring', stiffness: 200, damping: 20 }}
       />
     </>
   );

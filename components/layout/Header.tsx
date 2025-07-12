@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { Logo } from "../ui/Logo";
 import LinkWithCursor from '../ui/LinkWithCursor';
 
@@ -13,51 +13,13 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Debounced scroll handler for better performance
-  const handleScroll = useCallback(() => {
-    setScrolled(window.scrollY > 8);
-  }, []);
-
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-    
-    const debouncedScrollHandler = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(handleScroll, 10);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
     };
-
-    window.addEventListener('scroll', debouncedScrollHandler, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', debouncedScrollHandler);
-      clearTimeout(timeoutId);
-    };
-  }, [handleScroll]);
-
-  // Memoize navigation links to prevent unnecessary re-renders
-  const desktopNavLinks = useMemo(() => (
-    navLinks.map((link) => (
-      <LinkWithCursor 
-        key={link.href} 
-        href={link.href} 
-        className="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded px-2 py-1"
-      >
-        {link.label}
-      </LinkWithCursor>
-    ))
-  ), []);
-
-  const mobileNavLinks = useMemo(() => (
-    navLinks.map((link) => (
-      <LinkWithCursor 
-        key={link.href} 
-        href={link.href} 
-        className="block w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 hover:text-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background min-h-[44px] flex items-center justify-center" 
-        onClick={() => setIsMenuOpen(false)}
-      >
-        {link.label}
-      </LinkWithCursor>
-    ))
-  ), []);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <header 
@@ -73,7 +35,15 @@ export default function Header() {
           role="navigation"
           aria-label="Main navigation"
         >
-          {desktopNavLinks}
+          {navLinks.map((link) => (
+            <LinkWithCursor 
+              key={link.href} 
+              href={link.href} 
+              className="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded px-2 py-1"
+            >
+              {link.label}
+            </LinkWithCursor>
+          ))}
           <LinkWithCursor 
             href="/contact" 
             className="font-bold px-4 xl:px-5 py-2 rounded-full hover:opacity-90 transition-opacity ml-4 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
@@ -95,7 +65,7 @@ export default function Header() {
           <span className="block w-6 h-0.5 bg-white transition-transform" style={{ transform: isMenuOpen ? 'rotate(-45deg) translate(2px, -2px)' : 'none' }} />
         </button>
       </div>
-      {/* Mobile dropdown menu - Lazy loaded for better performance */}
+      {/* Mobile dropdown menu */}
       {isMenuOpen && (
         <>
           {/* Backdrop */}
@@ -115,7 +85,16 @@ export default function Header() {
           <nav className="flex flex-col p-4" role="navigation" aria-label="Mobile navigation">
             {/* Navigation Links */}
             <div className="space-y-2 mb-4">
-              {mobileNavLinks}
+              {navLinks.map((link) => (
+                <LinkWithCursor 
+                  key={link.href} 
+                  href={link.href} 
+                  className="block w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 hover:text-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background min-h-[44px] flex items-center justify-center" 
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.label}
+                </LinkWithCursor>
+              ))}
             </div>
             
             {/* Divider */}
