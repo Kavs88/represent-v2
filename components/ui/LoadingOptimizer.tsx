@@ -1,91 +1,90 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-interface LoadingOptimizerProps {
-  children: React.ReactNode;
-}
-
-export const LoadingOptimizer = ({ children }: LoadingOptimizerProps) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadingProgress, setLoadingProgress] = useState(0);
-
+export default function LoadingOptimizer() {
   useEffect(() => {
-    // Simulate loading progress for better UX
-    const progressInterval = setInterval(() => {
-      setLoadingProgress(prev => {
-        if (prev >= 90) {
-          clearInterval(progressInterval);
-          return 90;
-        }
-        return prev + 10;
-      });
-    }, 50);
-
-    // Complete loading after a short delay
-    const completeTimeout = setTimeout(() => {
-      setLoadingProgress(100);
-      setTimeout(() => setIsLoading(false), 200);
-    }, 300);
-
-    return () => {
-      clearInterval(progressInterval);
-      clearTimeout(completeTimeout);
-    };
-  }, []);
-
-  // Preload critical resources
-  useEffect(() => {
-    const preloadResources = () => {
+    // Preload critical resources
+    const preloadCriticalResources = () => {
       // Preload critical fonts
       const fontLinks = [
-        '/fonts/lora/Lora-Regular.woff2',
-        '/fonts/lora/Lora-Bold.woff2',
+        '/fonts/lora-v32-latin-700.woff2',
+        '/fonts/lora-v32-latin-regular.woff2',
       ];
-
+      
       fontLinks.forEach(href => {
         const link = document.createElement('link');
         link.rel = 'preload';
+        link.href = href;
         link.as = 'font';
         link.type = 'font/woff2';
         link.crossOrigin = 'anonymous';
-        link.href = href;
         document.head.appendChild(link);
       });
-
+      
       // Preload critical images
-      const imageUrls = [
-        '/placeholder-avatar.png',
-        // Add other critical images here
+      const criticalImages = [
+        '/og-image.jpg',
+        '/favicon.ico',
       ];
-
-      imageUrls.forEach(src => {
-        const img = new Image();
-        img.src = src;
+      
+      criticalImages.forEach(src => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.href = src;
+        link.as = 'image';
+        document.head.appendChild(link);
       });
     };
-
-    preloadResources();
+    
+    // Preconnect to external domains
+    const preconnectToExternalDomains = () => {
+      const domains = [
+        'https://v5.airtableusercontent.com',
+        'https://dl.airtable.com',
+        'https://api.airtable.com',
+      ];
+      
+      domains.forEach(domain => {
+        const link = document.createElement('link');
+        link.rel = 'preconnect';
+        link.href = domain;
+        document.head.appendChild(link);
+      });
+    };
+    
+    // Initialize optimizations
+    preloadCriticalResources();
+    preconnectToExternalDomains();
+    
+    // Lazy load non-critical resources
+    const lazyLoadNonCritical = () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target as HTMLImageElement;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+              observer.unobserve(img);
+            }
+          }
+        });
+      });
+      
+      // Observe all images with data-src attribute
+      document.querySelectorAll('img[data-src]').forEach(img => {
+        observer.observe(img);
+      });
+    };
+    
+    // Run lazy loading after initial load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', lazyLoadNonCritical);
+    } else {
+      lazyLoadNonCritical();
+    }
   }, []);
-
-  if (isLoading) {
-    return (
-      <div className="fixed inset-0 bg-background flex items-center justify-center z-50">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <div className="text-sm text-muted-foreground">Loading...</div>
-          <div className="w-48 h-1 bg-muted rounded-full mt-4 overflow-hidden">
-            <div 
-              className="h-full bg-primary transition-all duration-300 ease-out"
-              style={{ width: `${loadingProgress}%` }}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return <>{children}</>;
-};
-
-export default LoadingOptimizer; 
+  
+  return null;
+} 

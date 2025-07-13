@@ -14,13 +14,13 @@ export default function ConnectWithUs() {
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
           <a
             href="/contact"
-            className="inline-block bg-primary text-black font-semibold px-6 py-3 rounded-md shadow-md hover:brightness-110 transition-all"
+            className="inline-block bg-[#17624A] text-white font-bold px-12 py-6 rounded-full shadow-xl hover:brightness-110 transition-all border border-[#17624A]/30"
           >
             Contact Us
           </a>
           <a
             href="/about"
-            className="inline-block border border-primary text-primary px-6 py-3 rounded-md hover:bg-primary/10 transition-colors"
+            className="inline-block bg-[#17624A] text-white font-bold px-12 py-6 rounded-full shadow-xl hover:brightness-110 transition-all border border-[#17624A]/30"
           >
             Learn More
           </a>

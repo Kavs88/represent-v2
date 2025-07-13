@@ -8,6 +8,7 @@ import Footer from "../components/layout/Footer"
 import { GlobalMotionWrapper } from '@/components/ui/GlobalMotionWrapper'
 import PageTransitionWrapper from '@/components/layout/PageTransitionWrapper'
 import PerformanceMonitor from '@/components/ui/PerformanceMonitor'
+import LoadingOptimizer from '@/components/ui/LoadingOptimizer'
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 // Lora is now self-hosted via CSS
@@ -96,6 +97,7 @@ export default function RootLayout({
       </head>
       <body className="bg-background font-sans text-foreground flex flex-col min-h-screen">
         <PerformanceMonitor />
+        <LoadingOptimizer />
         <GlobalMotionWrapper>
           <Header />
           <PageTransitionWrapper>

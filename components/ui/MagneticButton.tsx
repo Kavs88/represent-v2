@@ -31,6 +31,16 @@ export function MagneticButton({ children, className = '', href }: MagneticButto
     y.set(0);
   }
 
+  const buttonContent = (
+    <div
+      className={`relative z-10 px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:scale-105 transition-transform duration-200 ${className}`}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      {children}
+    </div>
+  );
+
   return (
     <motion.div
       ref={ref}
@@ -40,8 +50,8 @@ export function MagneticButton({ children, className = '', href }: MagneticButto
       className={`inline-block ${className}`}
     >
       {href ? (
-        <LinkWithCursor href={href} className={`relative z-10 px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:scale-105 transition-transform duration-200 ${className}`}>
-          {children}
+        <LinkWithCursor href={href}>
+          {buttonContent}
         </LinkWithCursor>
       ) : (
         <button

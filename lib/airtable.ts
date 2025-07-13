@@ -137,7 +137,7 @@ export const getArtists = async (options: { featuredOnly?: boolean } = {}): Prom
     const query = table.select({
       fields: [
         "Name",
-        "Speciality",
+        "Speciality", 
         "Bio",
         "ProfileImage",
         "Artwork",
@@ -154,7 +154,16 @@ export const getArtists = async (options: { featuredOnly?: boolean } = {}): Prom
     });
     
     const records = await query.all();
-    const processed = processRecords([...records]);
+    let processed = processRecords([...records]);
+    
+    // For featured artists, shuffle the results to make selection more random
+    if (options.featuredOnly && processed.length > 0) {
+      // Fisher-Yates shuffle algorithm for true randomization
+      for (let i = processed.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [processed[i], processed[j]] = [processed[j], processed[i]];
+      }
+    }
     
     setCachedData(cacheKey, processed);
     return processed;

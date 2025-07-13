@@ -34,7 +34,7 @@ const AboutPage = memo(function AboutPage() {
 
 
         {/* Hero Section */}
-        <section className="relative h-[600px] flex items-center justify-center text-center overflow-hidden py-12 px-4">
+        <section className="relative h-[500px] sm:h-[600px] flex items-center justify-center text-center overflow-hidden py-8 sm:py-12 px-4">
           {/* Enhanced background with texture */}
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-gradient-to-br from-[#0e0e0e] via-[#1a1a1a] to-[#0e0e0e] opacity-100"></div>
@@ -45,19 +45,19 @@ const AboutPage = memo(function AboutPage() {
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-l from-primary to-green-500 rounded-full blur-3xl animate-pulse delay-1000 opacity-30"></div>
           </div>
           
-          <div className="relative z-10 max-w-4xl mx-auto px-3 xs:px-4 sm:px-6 text-center">
+          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
             <RevealOnScroll delay={0}>
-              <h1 className="text-8xl xs:text-9xl sm:text-10xl md:text-11xl lg:text-12xl xl:text-13xl font-bold tracking-tight text-white mb-6 xs:mb-8 sm:mb-10">
+              <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-10xl xl:text-12xl font-bold tracking-tight text-white mb-4 sm:mb-6 md:mb-8">
                 About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-green-400 drop-shadow-lg">Represent+</span>
               </h1>
             </RevealOnScroll>
             <RevealOnScroll delay={0.1}>
-              <h2 className="text-4xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-10xl font-bold tracking-tight text-white mb-6 xs:mb-8 sm:mb-10">
+              <h2 className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-bold tracking-tight text-white mb-4 sm:mb-6 md:mb-8">
                 We're Not Your Typical Agency
               </h2>
             </RevealOnScroll>
             <RevealOnScroll delay={0.2}>
-              <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-3 xs:px-4 sm:px-6">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
                 The old model is broken. Agencies control, they don't collaborate. We're building something different—a partnership that amplifies your vision, not ours.
               </p>
             </RevealOnScroll>
@@ -65,57 +65,52 @@ const AboutPage = memo(function AboutPage() {
         </section>
 
         {/* Wavy SVG Divider */}
-        <div className="relative z-10 -mt-8 sm:-mt-12 lg:-mt-16">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-12 sm:h-16 lg:h-24">
+        <div className="relative z-10 -mt-4 sm:-mt-8 md:-mt-12 lg:-mt-16">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-8 sm:h-12 md:h-16 lg:h-24">
             <path d="M0 0h1440v60c-120 40-360 60-720 60S120 100 0 60V0z" fill="#00FF9D" fillOpacity="0.08" />
           </svg>
         </div>
 
         {/* Mission Section with Animated Image */}
-        <section className="py-12 relative overflow-hidden">
-          {/* Deep teal background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364]"></div>
-          {/* Teal depth layers */}
-          <div className="absolute inset-0">
-            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-teal-600/20 via-teal-500/10 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-teal-700/20 via-teal-600/10 to-transparent"></div>
-            <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-teal-600/15 via-teal-500/8 to-transparent"></div>
-            <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-teal-600/15 via-teal-500/8 to-transparent"></div>
-          </div>
-          {/* Vibrant orange accents */}
-          <div className="absolute inset-0">
-            <div className="absolute top-0 left-1/4 w-64 h-64 bg-gradient-to-b from-orange-500/35 via-orange-400/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-gradient-to-t from-orange-600/30 via-orange-500/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-orange-400/25 via-orange-300/15 to-transparent rounded-full blur-3xl animate-pulse delay-500"></div>
-          </div>
-          <div className="max-w-4xl mx-auto relative z-10 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 md:h-[420px]">
+        <section className="py-8 sm:py-12 relative overflow-hidden" style={{ backgroundColor: '#2C2C2C' }}>
+          {/* Boltgun grey background with subtle texture */}
+          <div className="absolute inset-0 opacity-40" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='40' cy='40' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          }}></div>
+          <div className="max-w-6xl mx-auto relative z-10 flex flex-col md:flex-row items-center justify-center gap-6 sm:gap-8 md:gap-12 md:h-[420px]">
             {/* Exhibition Image left */}
-            <div className="w-full max-w-xs md:max-w-sm lg:max-w-md flex items-center justify-center h-full">
+            <div className="w-full max-w-xs sm:max-w-sm md:max-w-md flex items-center justify-center h-full">
               <img
                 src="/exhibition.jpg"
                 alt="Modern art exhibition"
-                className="h-full max-h-[420px] w-auto rounded-3xl shadow-2xl object-cover object-center"
+                className="h-full max-h-[300px] sm:max-h-[420px] w-auto rounded-3xl shadow-2xl object-cover object-center"
                 style={{ minHeight: '180px' }}
               />
             </div>
+            {/* Text Content - Centered and restyled */}
             <div className="flex-1 flex flex-col justify-center items-center h-full">
               <motion.div 
                 variants={fadeUp}
                 initial="initial"
                 whileInView="animate"
                 viewport={{ once: true }}
-                className="flex flex-col justify-center items-center h-full w-full"
+                className="flex flex-col justify-center items-center h-full w-full max-w-2xl mx-auto text-center"
               >
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 text-center">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 sm:mb-8 text-center leading-tight">
                   Our Mission
                 </h2>
-                <div className="bg-card/50 backdrop-blur-sm rounded-3xl p-4 xs:p-6 sm:p-8 lg:p-12 border border-border/50 shadow-xl w-full max-w-xl mx-auto">
-                  <p className="text-sm xs:text-base sm:text-lg md:text-xl leading-relaxed text-muted-foreground mb-4">
-                    We exist for the bold. Represent+ is where uncompromising creatives find real opportunity—no gatekeeping, no empty promises. We're here to amplify visionaries, not just manage them. This is a platform built for artists who want to shape culture, not just follow it.
-                  </p>
-                  <p className="text-sm xs:text-base sm:text-lg md:text-xl leading-relaxed text-muted-foreground">
-                    <span className="font-bold" style={{ color: '#00FF9D' }}>Represent+</span> is a curated ecosystem where artists, designers, and creative professionals thrive, inspire, and set the new standard—together.
-                  </p>
+                <div className="bg-card/60 backdrop-blur-md rounded-3xl p-6 sm:p-8 md:p-10 border border-border/50 shadow-2xl w-full max-w-xl mx-auto">
+                  <div className="space-y-4 sm:space-y-6">
+                    <p className="text-sm sm:text-base md:text-lg leading-relaxed text-white/90 font-medium">
+                      We exist for the bold. <span className="text-primary font-bold">Represent+</span> is where uncompromising creatives find real opportunity.
+                    </p>
+                    <p className="text-sm sm:text-base md:text-lg leading-relaxed text-white/80">
+                      We're here to amplify visionaries, not just manage them. This is a platform built for artists who want to shape culture.
+                    </p>
+                    <p className="text-sm sm:text-base md:text-lg leading-relaxed text-white/90 font-medium">
+                      <span className="text-primary font-bold">Represent+</span> is a curated ecosystem where artists thrive and set new standards—together.
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             </div>
@@ -202,9 +197,24 @@ const AboutPage = memo(function AboutPage() {
           </div>
         </section>
 
+        {/* Wavy SVG Divider */}
+        <div className="relative z-10 -mt-4 sm:-mt-8 md:-mt-12 lg:-mt-16">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-8 sm:h-12 md:h-16 lg:h-24">
+            <path d="M0 0h1440v60c-120 40-360 60-720 60S120 100 0 60V0z" fill="#00FF9D" fillOpacity="0.08" />
+          </svg>
+        </div>
+
         {/* How to Connect Section */}
-        <section className="py-20 px-4" style={{ backgroundColor: '#2C2C2C' }}>
-          <div className="max-w-4xl mx-auto">
+        <section className="py-20 px-4 relative bg-black overflow-hidden">
+          {/* Spotlight effect */}
+          <div className="absolute inset-0 z-0">
+            {/* Multiple spotlight beams */}
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-b from-[#00ff9d]/50 via-[#00ff9d]/25 to-transparent rounded-full blur-3xl animate-pulse opacity-90"></div>
+            <div className="absolute top-0 right-1/4 w-96 h-96 bg-gradient-to-b from-[#22c55e]/50 via-[#22c55e]/25 to-transparent rounded-full blur-3xl animate-pulse delay-1000 opacity-90"></div>
+            <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-gradient-to-t from-[#00ff9d]/40 via-[#00ff9d]/20 to-transparent rounded-full blur-3xl animate-pulse delay-500 opacity-90"></div>
+          </div>
+          
+          <div className="max-w-4xl mx-auto relative z-10">
             <motion.div 
               variants={fadeUp}
               initial="initial"
@@ -237,20 +247,20 @@ const AboutPage = memo(function AboutPage() {
                     </div>
                     <h3 className="text-2xl font-bold text-white">For Artists</h3>
                   </div>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                  <p className="text-white/90 mb-6 leading-relaxed font-medium">
                     Ready to make your mark? Submit your portfolio—no fluff, just your best work. Book a call with our team. Explore collaborations that actually move the needle.
                   </p>
-                  <ul className="space-y-3 text-muted-foreground">
+                  <ul className="space-y-3 text-white/80">
                     <li className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      <div className="w-2 h-2 bg-[#00FF9D] rounded-full"></div>
                       Submit your portfolio for review
                     </li>
                     <li className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      <div className="w-2 h-2 bg-[#00FF9D] rounded-full"></div>
                       Connect with our team for consultation
                     </li>
                     <li className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      <div className="w-2 h-2 bg-[#00FF9D] rounded-full"></div>
                       Explore collaboration opportunities
                     </li>
                   </ul>
@@ -265,20 +275,20 @@ const AboutPage = memo(function AboutPage() {
                     </div>
                     <h3 className="text-2xl font-bold text-white">For Partners</h3>
                   </div>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                  <p className="text-white/90 mb-6 leading-relaxed font-medium">
                     Looking for exceptional creative talent for your next project? We’ll connect you with the perfect artist. Browse our roster, request custom recommendations, or start a conversation about partnership.
                   </p>
-                  <ul className="space-y-3 text-muted-foreground">
+                  <ul className="space-y-3 text-white/80">
                     <li className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      <div className="w-2 h-2 bg-[#00FF9D] rounded-full"></div>
                       Browse our curated artist roster
                     </li>
                     <li className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      <div className="w-2 h-2 bg-[#00FF9D] rounded-full"></div>
                       Request custom artist recommendations
                     </li>
                     <li className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
+                      <div className="w-2 h-2 bg-[#00FF9D] rounded-full"></div>
                       Discuss partnership opportunities
                     </li>
                   </ul>
@@ -288,8 +298,7 @@ const AboutPage = memo(function AboutPage() {
               <div className="text-center mt-12">
                 <LinkWithCursor 
                   href="/contact" 
-                  className="inline-flex items-center gap-3 font-extrabold text-2xl md:text-3xl px-12 py-6 rounded-full bg-gradient-to-r from-primary to-green-400 text-black shadow-xl hover:opacity-90 transition-opacity border-4 border-green-400"
-                  style={{ letterSpacing: '0.04em' }}
+                  className="inline-flex items-center gap-3 font-bold text-2xl px-12 py-6 rounded-full bg-[#17624A] text-white shadow-xl hover:brightness-110 transition-all border border-[#17624A]/30"
                 >
                   Get in Touch
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -33,14 +33,14 @@ export default function OfflinePage() {
         <div className="space-y-4">
           <Link 
             href="/"
-            className="block w-full bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+            className="block w-full bg-[#17624A] text-white font-bold text-2xl px-12 py-6 rounded-full shadow-xl hover:brightness-110 transition-all border border-[#17624A]/30"
           >
             Go to Homepage
           </Link>
           
           <button 
             onClick={() => window.location.reload()}
-            className="block w-full bg-muted text-muted-foreground px-6 py-3 rounded-lg font-semibold hover:bg-muted/80 transition-colors"
+            className="block w-full bg-[#17624A] text-white font-bold text-2xl px-12 py-6 rounded-full shadow-xl hover:brightness-110 transition-all border border-[#17624A]/30"
           >
             Try Again
           </button>

@@ -21,98 +21,158 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (isMenuOpen && !target.closest('.mobile-menu')) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('click', handleClickOutside);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
+  // Close menu on escape key
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isMenuOpen]);
+
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
-    <header 
-      className={`w-full sticky top-0 left-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border transition-shadow duration-300 ${scrolled ? 'shadow-lg' : ''}`}
-      role="banner"
-    >
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-3 xs:px-4 sm:px-6 py-2 xs:py-3 sm:py-4">
-        <Logo />
-        {/* Desktop nav */}
-        <nav 
-          className="hidden lg:flex gap-6 xl:gap-8 text-sm xl:text-base font-medium items-center"
-          id="main-navigation"
-          role="navigation"
-          aria-label="Main navigation"
-        >
-          {navLinks.map((link) => (
-            <LinkWithCursor 
-              key={link.href} 
-              href={link.href} 
-              className="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded px-2 py-1"
-            >
-              {link.label}
-            </LinkWithCursor>
-          ))}
-          <LinkWithCursor 
-            href="/contact" 
-            className="font-bold px-4 xl:px-5 py-2 rounded-full hover:opacity-90 transition-opacity ml-4 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
-            style={{ backgroundColor: '#17624A', color: '#fff' }}
-          >
-            Let's Talk
-          </LinkWithCursor>
-        </nav>
-        {/* Hamburger for mobile */}
-        <button
-          className="lg:hidden flex items-center justify-center w-12 h-12 xs:w-10 xs:h-10 rounded hover:bg-white/10 transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isMenuOpen}
-          aria-controls="mobile-menu"
-          onClick={() => setIsMenuOpen((v) => !v)}
-        >
-          <span className="block w-6 h-0.5 bg-white mb-1 transition-transform" style={{ transform: isMenuOpen ? 'rotate(45deg) translate(2px, 2px)' : 'none' }} />
-          <span className="block w-6 h-0.5 bg-white mb-1 transition-opacity" style={{ opacity: isMenuOpen ? 0 : 1 }} />
-          <span className="block w-6 h-0.5 bg-white transition-transform" style={{ transform: isMenuOpen ? 'rotate(-45deg) translate(2px, -2px)' : 'none' }} />
-        </button>
-      </div>
-      {/* Mobile dropdown menu */}
-      {isMenuOpen && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-black/20 backdrop-blur-sm lg:hidden z-30"
-            onClick={() => setIsMenuOpen(false)}
-            aria-hidden="true"
-          />
-          {/* Dropdown */}
-          <div 
-            className="absolute top-full right-0 w-64 xs:w-72 bg-background/95 backdrop-blur-sm border border-border shadow-2xl rounded-b-2xl lg:hidden z-40"
-            id="mobile-menu"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Mobile navigation menu"
-          >
-          <nav className="flex flex-col p-4" role="navigation" aria-label="Mobile navigation">
-            {/* Navigation Links */}
-            <div className="space-y-2 mb-4">
+    <>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-background/95 backdrop-blur-md border-b border-border shadow-lg' 
+          : 'bg-transparent'
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20 sm:h-24 lg:h-28">
+            {/* Logo */}
+            <div className="flex-shrink-0 flex items-center">
+              <Logo />
+            </div>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-8">
               {navLinks.map((link) => (
-                <LinkWithCursor 
-                  key={link.href} 
-                  href={link.href} 
-                  className="block w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 hover:text-primary transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background min-h-[44px] flex items-center justify-center" 
-                  onClick={() => setIsMenuOpen(false)}
+                <LinkWithCursor
+                  key={link.href}
+                  href={link.href}
+                  className="text-xl sm:text-2xl font-medium text-foreground hover:text-primary transition-colors duration-200 py-3 px-4 rounded-md hover:bg-accent/50 flex items-center h-full"
                 >
                   {link.label}
                 </LinkWithCursor>
               ))}
+              <LinkWithCursor
+                href="/contact"
+                className="bg-[#17624A] text-white font-bold text-xl px-10 py-4 rounded-full shadow-xl hover:brightness-110 transition-all border border-[#17624A]/30 flex items-center h-full"
+              >
+                Get Started
+              </LinkWithCursor>
+            </nav>
+
+            {/* Mobile menu button */}
+            <div className="lg:hidden flex items-center">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="p-3 rounded-md text-foreground hover:bg-accent/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary flex items-center justify-center"
+                aria-label="Toggle menu"
+              >
+                <div className="w-6 h-6 flex flex-col justify-center items-center">
+                  <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${
+                    isMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-1'
+                  }`}></span>
+                  <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${
+                    isMenuOpen ? 'opacity-0' : 'opacity-100'
+                  }`}></span>
+                  <span className={`block w-5 h-0.5 bg-current transition-all duration-300 ${
+                    isMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-1'
+                  }`}></span>
+                </div>
+              </button>
             </div>
-            
-            {/* Divider */}
-            <div className="border-t border-border my-2"></div>
-            
-            {/* CTA Button */}
-            <LinkWithCursor 
-              href="/contact" 
-              className="w-full font-bold px-4 py-3 rounded-lg hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background min-h-[44px] flex items-center justify-center text-center"
-              style={{ backgroundColor: '#17624A', color: '#fff' }}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Let's Talk
-            </LinkWithCursor>
-          </nav>
+          </div>
         </div>
-        </>
-      )}
-    </header>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="lg:hidden mobile-menu">
+            {/* Backdrop */}
+            <div 
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+              onClick={closeMenu}
+            ></div>
+            
+            {/* Menu Content */}
+            <div className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-background/95 backdrop-blur-md border-l border-border shadow-2xl z-50 transform transition-transform duration-300 ease-in-out">
+              <div className="flex flex-col h-full">
+                {/* Header */}
+                <div className="flex items-center justify-between p-6 border-b border-border">
+                  <Logo />
+                  <button
+                    onClick={closeMenu}
+                    className="p-2 rounded-md text-foreground hover:bg-accent/50 transition-colors duration-200"
+                    aria-label="Close menu"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Navigation Links */}
+                <nav className="flex-1 px-6 py-8">
+                  <div className="space-y-4">
+                    {navLinks.map((link) => (
+                      <LinkWithCursor
+                        key={link.href}
+                        href={link.href}
+                        onClick={closeMenu}
+                        className="block text-2xl sm:text-3xl font-medium text-foreground hover:text-primary transition-colors duration-200 py-4 px-4 rounded-lg hover:bg-accent/50"
+                      >
+                        {link.label}
+                      </LinkWithCursor>
+                    ))}
+                  </div>
+                </nav>
+
+                {/* CTA Button */}
+                <div className="p-6 border-t border-border">
+                  <LinkWithCursor
+                    href="/contact"
+                    onClick={closeMenu}
+                    className="block w-full bg-[#17624A] text-white font-bold text-xl px-10 py-4 rounded-full shadow-xl hover:brightness-110 transition-all border border-[#17624A]/30 text-center"
+                  >
+                    Get Started
+                  </LinkWithCursor>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
+      
+      {/* Spacer to prevent content from hiding under fixed header */}
+      <div className="h-20 sm:h-24 lg:h-28"></div>
+    </>
   );
 } 

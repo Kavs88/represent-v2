@@ -185,7 +185,7 @@ export default function FeaturedArtistsGrid({ featuredArtists }: FeaturedArtists
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-black text-primary font-bold text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-2 border-primary hover:bg-primary hover:text-black"
+                className="bg-[#17624A] text-white font-bold text-2xl px-12 py-6 rounded-full shadow-xl hover:brightness-110 transition-all border border-[#17624A]/30"
               >
                 View All Artists
               </motion.button>

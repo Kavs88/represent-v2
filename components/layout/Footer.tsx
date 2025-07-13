@@ -11,19 +11,23 @@ const navLinks = [
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-card border-t border-border py-8 sm:py-12 px-4 sm:px-6 mt-12 sm:mt-16">
+    <footer className="w-full bg-card border-t border-border py-8 sm:py-12 px-4 sm:px-6 mt-8 sm:mt-12 md:mt-16">
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 items-start">
         {/* Logo and brand */}
         <div className="flex flex-col items-center sm:items-start gap-2 text-center sm:text-left">
           <Logo />
           <span className="text-base sm:text-lg font-bold tracking-tight">Represent+</span>
-          <span className="text-xs text-muted-foreground">Creative Partnership Platform</span>
+          <span className="text-xs sm:text-sm text-muted-foreground">Creative Partnership Platform</span>
         </div>
         {/* Navigation */}
         <nav className="flex flex-col items-center gap-2 sm:items-center">
           <span className="uppercase text-xs font-semibold text-muted-foreground mb-2">Navigation</span>
           {navLinks.map((link) => (
-            <LinkWithCursor key={link.href} href={link.href} className="hover:text-primary transition-colors text-sm sm:text-base">
+            <LinkWithCursor 
+              key={link.href} 
+              href={link.href} 
+              className="hover:text-primary transition-colors text-sm sm:text-base min-h-[44px] flex items-center justify-center"
+            >
               {link.label}
             </LinkWithCursor>
           ))}
@@ -34,7 +38,9 @@ export default function Footer() {
           <SocialIcons />
         </div>
       </div>
-      <div className="text-center text-xs text-muted-foreground mt-6 sm:mt-8 px-4">&copy; {new Date().getFullYear()} Represent+. Built for creatives, by creatives.</div>
+      <div className="text-center text-xs sm:text-sm text-muted-foreground mt-6 sm:mt-8 px-4">
+        &copy; {new Date().getFullYear()} Represent+. Built for creatives, by creatives.
+      </div>
     </footer>
   );
 } 
