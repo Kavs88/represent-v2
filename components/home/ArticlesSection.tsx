@@ -35,19 +35,19 @@ export default function ArticlesSection() {
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-black mb-8 text-center text-white drop-shadow-lg">Articles & Media</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {articles.map((article) => (
-              <div key={article.id} className="bg-white/10 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden flex flex-col border-2 border-orange-500/30 hover:border-orange-500/50 transition-all duration-300">
-                <div className="relative w-full aspect-video">
-                  <Image src={article.image} alt={article.title} fill className="object-cover" />
-                </div>
-                <div className="flex-1 flex flex-col p-4">
-                  <span className="inline-block bg-orange-500/20 text-orange-400 text-xs font-bold uppercase px-3 py-1 rounded-full mb-3 w-fit">{article.category}</span>
-                  <h3 className="text-base font-bold mb-2 text-white">{article.title}</h3>
-                  <p className="text-xs text-white/70 mb-3 flex-1">{article.description}</p>
-                  <Link href={article.link} className="text-orange-400 font-semibold text-sm hover:text-orange-300 hover:underline mt-auto transition-colors">Read More &rarr;</Link>
-                </div>
+          {articles.map((article) => (
+            <div key={article.id} className="bg-white/10 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden flex flex-col border-2 border-orange-500/30 hover:border-orange-500/50 transition-all duration-300">
+              <div className="relative w-full aspect-video">
+                <Image src={article.image} alt={article.title} fill className="object-cover" />
               </div>
-            ))}
+              <div className="flex-1 flex flex-col p-4">
+                <span className="inline-block bg-orange-500/20 text-orange-400 text-xs font-bold uppercase px-3 py-1 rounded-full mb-3 w-fit">{article.category}</span>
+                <h3 className="text-base font-bold mb-2 text-white">{article.title}</h3>
+                <p className="text-xs text-white/70 mb-3 flex-1">{article.description}</p>
+                <Link href={article.link} className="text-orange-400 font-semibold text-sm hover:text-orange-300 hover:underline mt-auto transition-colors">Read More &rarr;</Link>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

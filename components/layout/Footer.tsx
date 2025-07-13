@@ -4,9 +4,9 @@ import LinkWithCursor from '../ui/LinkWithCursor';
 import SocialIcons from "../ui/SocialIcons";
 
 const navLinks = [
-  { href: "/artists", label: "Artists" },
+  { href: "/artists", label: "The Roster" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/contact", label: "Connect" },
 ];
 
 export default function Footer() {
@@ -17,7 +17,7 @@ export default function Footer() {
         <div className="flex flex-col items-center sm:items-start gap-2 text-center sm:text-left">
           <Logo />
           <span className="text-base sm:text-lg font-bold tracking-tight">Represent+</span>
-          <span className="text-xs text-muted-foreground">Premium Artist Portfolio Platform</span>
+          <span className="text-xs text-muted-foreground">Creative Partnership Platform</span>
         </div>
         {/* Navigation */}
         <nav className="flex flex-col items-center gap-2 sm:items-center">
@@ -34,7 +34,7 @@ export default function Footer() {
           <SocialIcons />
         </div>
       </div>
-      <div className="text-center text-xs text-muted-foreground mt-6 sm:mt-8 px-4">&copy; {new Date().getFullYear()} Represent+. All rights reserved.</div>
+      <div className="text-center text-xs text-muted-foreground mt-6 sm:mt-8 px-4">&copy; {new Date().getFullYear()} Represent+. Built for creatives, by creatives.</div>
     </footer>
   );
 } 

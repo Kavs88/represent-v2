@@ -31,6 +31,8 @@ const AboutPage = memo(function AboutPage() {
       />
       
       <div className="min-h-screen bg-background text-foreground">
+
+
         {/* Hero Section */}
         <section className="relative h-[600px] flex items-center justify-center text-center overflow-hidden py-12 px-4">
           {/* Enhanced background with texture */}
@@ -45,13 +47,18 @@ const AboutPage = memo(function AboutPage() {
           
           <div className="relative z-10 max-w-4xl mx-auto px-3 xs:px-4 sm:px-6 text-center">
             <RevealOnScroll delay={0}>
-              <h1 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight text-white mb-2 xs:mb-3 sm:mb-4">
-                Our Story at <span className="font-bold" style={{ color: '#00FF9D' }}>Represent+</span>
+              <h1 className="text-8xl xs:text-9xl sm:text-10xl md:text-11xl lg:text-12xl xl:text-13xl font-bold tracking-tight text-white mb-6 xs:mb-8 sm:mb-10">
+                About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-green-400 drop-shadow-lg">Represent+</span>
               </h1>
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.1}>
+              <h2 className="text-4xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-10xl font-bold tracking-tight text-white mb-6 xs:mb-8 sm:mb-10">
+                We're Not Your Typical Agency
+              </h2>
             </RevealOnScroll>
             <RevealOnScroll delay={0.2}>
               <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-3 xs:px-4 sm:px-6">
-                Where creative visionaries and bold opportunities meet. Represent+ is the platform for artists and agencies who believe in the power of originality, connection, and craft.
+                The old model is broken. Agencies control, they don't collaborate. We're building something different—a partnership that amplifies your vision, not ours.
               </p>
             </RevealOnScroll>
           </div>
@@ -68,7 +75,6 @@ const AboutPage = memo(function AboutPage() {
         <section className="py-12 relative overflow-hidden">
           {/* Deep teal background */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364]"></div>
-          
           {/* Teal depth layers */}
           <div className="absolute inset-0">
             <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-teal-600/20 via-teal-500/10 to-transparent"></div>
@@ -76,40 +82,39 @@ const AboutPage = memo(function AboutPage() {
             <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-teal-600/15 via-teal-500/8 to-transparent"></div>
             <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-teal-600/15 via-teal-500/8 to-transparent"></div>
           </div>
-          
           {/* Vibrant orange accents */}
           <div className="absolute inset-0">
             <div className="absolute top-0 left-1/4 w-64 h-64 bg-gradient-to-b from-orange-500/35 via-orange-400/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
             <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-gradient-to-t from-orange-600/30 via-orange-500/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-orange-400/25 via-orange-300/15 to-transparent rounded-full blur-3xl animate-pulse delay-500"></div>
           </div>
-          <div className="max-w-4xl mx-auto relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
+          <div className="max-w-4xl mx-auto relative z-10 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 md:h-[420px]">
             {/* Exhibition Image left */}
-            <div className="w-full max-w-xs md:max-w-sm lg:max-w-md h-full flex items-center justify-center md:items-stretch md:justify-start">
+            <div className="w-full max-w-xs md:max-w-sm lg:max-w-md flex items-center justify-center h-full">
               <img
                 src="/exhibition.jpg"
                 alt="Modern art exhibition"
-                className="h-full max-h-[420px] w-auto rounded-3xl shadow-2xl object-cover object-center mb-6 md:mb-0"
+                className="h-full max-h-[420px] w-auto rounded-3xl shadow-2xl object-cover object-center"
                 style={{ minHeight: '180px' }}
               />
             </div>
-            <div className="flex-1 flex flex-col justify-center items-center md:items-center h-full">
+            <div className="flex-1 flex flex-col justify-center items-center h-full">
               <motion.div 
                 variants={fadeUp}
                 initial="initial"
                 whileInView="animate"
                 viewport={{ once: true }}
-                className="text-center md:text-center mb-8 xs:mb-12 sm:mb-16 md:mb-0 flex flex-col justify-center h-full"
+                className="flex flex-col justify-center items-center h-full w-full"
               >
-                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 xs:mb-4 sm:mb-6">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 text-center">
                   Our Mission
                 </h2>
-                <div className="bg-card/50 backdrop-blur-sm rounded-3xl p-4 xs:p-6 sm:p-8 lg:p-12 border border-border/50 shadow-xl">
-                  <p className="text-sm xs:text-base sm:text-lg md:text-xl leading-relaxed text-muted-foreground mb-3 xs:mb-4 sm:mb-6">
-                    We champion creative excellence. Our mission is to elevate artists, foster meaningful collaborations, and connect talent with those who value vision and authenticity.
+                <div className="bg-card/50 backdrop-blur-sm rounded-3xl p-4 xs:p-6 sm:p-8 lg:p-12 border border-border/50 shadow-xl w-full max-w-xl mx-auto">
+                  <p className="text-sm xs:text-base sm:text-lg md:text-xl leading-relaxed text-muted-foreground mb-4">
+                    We exist for the bold. Represent+ is where uncompromising creatives find real opportunity—no gatekeeping, no empty promises. We're here to amplify visionaries, not just manage them. This is a platform built for artists who want to shape culture, not just follow it.
                   </p>
                   <p className="text-sm xs:text-base sm:text-lg md:text-xl leading-relaxed text-muted-foreground">
-                    <span className="font-bold" style={{ color: '#00FF9D' }}>Represent+</span> is a curated ecosystem where artists, designers, and creative professionals thrive, inspire, and shape culture together.
+                    <span className="font-bold" style={{ color: '#00FF9D' }}>Represent+</span> is a curated ecosystem where artists, designers, and creative professionals thrive, inspire, and set the new standard—together.
                   </p>
                 </div>
               </motion.div>
@@ -138,7 +143,7 @@ const AboutPage = memo(function AboutPage() {
                 Our Values
               </h2>
               <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
-                The principles that define our creative community
+                The principles that drive our creative community
               </p>
             </motion.div>
             
@@ -158,9 +163,9 @@ const AboutPage = memo(function AboutPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
                   </svg>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-center">Artistic Excellence</h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-center">Creative Independence</h3>
                 <p className="text-sm sm:text-base text-muted-foreground text-center leading-relaxed">
-                  We represent only the most original and innovative talent, setting a new standard for creative achievement.
+                  We don’t do cookie-cutter. Every artist we represent is handpicked for originality, edge, and a relentless drive to push boundaries.
                 </p>
               </motion.div>
               
@@ -173,9 +178,9 @@ const AboutPage = memo(function AboutPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4 text-center">Authentic Partnerships</h3>
+                <h3 className="text-2xl font-bold text-white mb-4 text-center">Strategic Partnership</h3>
                 <p className="text-muted-foreground text-center leading-relaxed">
-                  We build lasting, supportive relationships with our artists—offering guidance, advocacy, and a platform for growth.
+                  We’re in your corner. Our relationships are built on trust, advocacy, and a shared ambition to break new ground—together.
                 </p>
               </motion.div>
               
@@ -188,9 +193,9 @@ const AboutPage = memo(function AboutPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4 text-center">Global Impact</h3>
+                <h3 className="text-2xl font-bold text-white mb-4 text-center">Cultural Impact</h3>
                 <p className="text-muted-foreground text-center leading-relaxed">
-                  We connect creative visionaries with opportunities worldwide, amplifying voices and shaping culture across borders.
+                  We connect creative visionaries with global opportunities, amplifying voices that move the culture forward.
                 </p>
               </motion.div>
             </motion.div>
@@ -198,7 +203,7 @@ const AboutPage = memo(function AboutPage() {
         </section>
 
         {/* How to Connect Section */}
-        <section className="py-20 px-4 bg-muted/10">
+        <section className="py-20 px-4" style={{ backgroundColor: '#2C2C2C' }}>
           <div className="max-w-4xl mx-auto">
             <motion.div 
               variants={fadeUp}
@@ -211,7 +216,7 @@ const AboutPage = memo(function AboutPage() {
                 Connect With <span className="font-bold" style={{ color: '#00FF9D' }}>Represent+</span>
               </h2>
               <p className="text-lg md:text-xl text-muted mb-12 max-w-2xl mx-auto leading-relaxed">
-                Whether you’re an artist, agency, or creative partner, we’re here to help you make your mark. Let’s start a conversation about your next chapter.
+                Whether you’re an artist ready to level up, or a partner looking for the next wave of creative talent, Represent+ is your launchpad. Let’s build something that matters.
               </p>
             </motion.div>
             
@@ -233,8 +238,7 @@ const AboutPage = memo(function AboutPage() {
                     <h3 className="text-2xl font-bold text-white">For Artists</h3>
                   </div>
                   <p className="text-muted-foreground mb-6 leading-relaxed">
-                    Ready to take your creative career to the next level? We're always looking for 
-                    exceptional talent to join our roster.
+                    Ready to make your mark? Submit your portfolio—no fluff, just your best work. Book a call with our team. Explore collaborations that actually move the needle.
                   </p>
                   <ul className="space-y-3 text-muted-foreground">
                     <li className="flex items-center gap-3">
@@ -262,8 +266,7 @@ const AboutPage = memo(function AboutPage() {
                     <h3 className="text-2xl font-bold text-white">For Partners</h3>
                   </div>
                   <p className="text-muted-foreground mb-6 leading-relaxed">
-                    Looking for exceptional creative talent for your next project? 
-                    We can connect you with the perfect artist.
+                    Looking for exceptional creative talent for your next project? We’ll connect you with the perfect artist. Browse our roster, request custom recommendations, or start a conversation about partnership.
                   </p>
                   <ul className="space-y-3 text-muted-foreground">
                     <li className="flex items-center gap-3">
@@ -285,8 +288,8 @@ const AboutPage = memo(function AboutPage() {
               <div className="text-center mt-12">
                 <LinkWithCursor 
                   href="/contact" 
-                  className="inline-flex items-center gap-3 font-bold px-8 py-4 rounded-full hover:opacity-90 transition-opacity"
-                  style={{ backgroundColor: '#17624A', color: '#fff' }}
+                  className="inline-flex items-center gap-3 font-extrabold text-2xl md:text-3xl px-12 py-6 rounded-full bg-gradient-to-r from-primary to-green-400 text-black shadow-xl hover:opacity-90 transition-opacity border-4 border-green-400"
+                  style={{ letterSpacing: '0.04em' }}
                 >
                   Get in Touch
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -14,45 +14,45 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Represent GPT - AI-Powered Artist Representation Platform',
-    template: '%s | Represent GPT'
+    default: 'Represent+ - Creative Partnership Platform',
+    template: '%s | Represent+'
   },
-  description: 'Discover and connect with exceptional artists through our AI-powered representation platform. Browse curated portfolios, explore unique artworks, and commission custom pieces from talented creators worldwide.',
-  keywords: ['artist representation', 'AI art platform', 'commission artwork', 'artist portfolio', 'contemporary art', 'digital art', 'fine art', 'artists for hire'],
-  authors: [{ name: 'Represent GPT Team' }],
-  creator: 'Represent GPT',
-  publisher: 'Represent GPT',
+  description: 'Connect with bold creatives who refuse to compromise. Browse curated portfolios, commission custom work, and build partnerships that actually matter.',
+  keywords: ['artist representation', 'creative partnership', 'commission artwork', 'artist portfolio', 'contemporary art', 'digital art', 'fine art', 'artists for hire'],
+  authors: [{ name: 'Represent+ Team' }],
+  creator: 'Represent+',
+  publisher: 'Represent+',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://representgpt.com'),
+  metadataBase: new URL('https://representplus.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://representgpt.com',
-    siteName: 'Represent GPT',
-    title: 'Represent GPT - AI-Powered Artist Representation Platform',
-    description: 'Discover and connect with exceptional artists through our AI-powered representation platform. Browse curated portfolios, explore unique artworks, and commission custom pieces from talented creators worldwide.',
+    url: 'https://representplus.com',
+    siteName: 'Represent+',
+    title: 'Represent+ - Creative Partnership Platform',
+    description: 'Connect with bold creatives who refuse to compromise. Browse curated portfolios, commission custom work, and build partnerships that actually matter.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Represent GPT - AI-Powered Artist Representation Platform',
+        alt: 'Represent+ - Creative Partnership Platform',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Represent GPT - AI-Powered Artist Representation Platform',
-    description: 'Discover and connect with exceptional artists through our AI-powered representation platform.',
+    title: 'Represent+ - Creative Partnership Platform',
+    description: 'Connect with bold creatives who refuse to compromise.',
     images: ['/og-image.jpg'],
-    creator: '@representgpt',
+    creator: '@representplus',
   },
   robots: {
     index: true,

@@ -17,12 +17,12 @@ const ContactPage = memo(function ContactPage() {
       {/* Hero Section */}
       <section className="pt-16 xs:pt-20 sm:pt-24 lg:pt-32 xl:pt-40 pb-8 xs:pb-12 sm:pb-16 px-3 xs:px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 xs:mb-4 sm:mb-6 text-white">
-            Let's Create Something Amazing
+          <h1 className="text-4xl xs:text-6xl sm:text-8xl md:text-10xl lg:text-12xl font-bold mb-3 xs:mb-4 sm:mb-6 text-white">
+            Let's Build Something Real
           </h1>
-          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-muted-foreground mb-6 xs:mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed px-3 xs:px-4 sm:px-6">
-            Ready to bring your vision to life? Whether you're an artist looking to showcase your work 
-            or a client seeking exceptional talent, we're here to make it happen.
+          <p className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-6 xs:mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed px-3 xs:px-4 sm:px-6">
+            Ready to turn your vision into reality? Whether you're a creative looking to break through 
+            or a brand that gets it, we're here to make shit happen.
           </p>
         </div>
       </section>
@@ -46,7 +46,7 @@ const ContactPage = memo(function ContactPage() {
       <section className="py-16 xs:py-20 sm:py-24 px-3 xs:px-4 sm:px-6 bg-muted/10">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 xs:mb-16 sm:mb-20">
-            <h2 className="text-3xl xs:text-4xl sm:text-5xl font-bold mb-4 xs:mb-6 sm:mb-8">Why Choose Represent+</h2>
+            <h2 className="text-3xl xs:text-4xl sm:text-5xl font-bold mb-4 xs:mb-6 sm:mb-8">Why Choose <span className="text-green-400">Represent+</span></h2>
             <p className="text-lg xs:text-xl sm:text-2xl text-muted-foreground">
               We're not just another platform – we're your creative partner
             </p>
@@ -86,10 +86,10 @@ const ContactPage = memo(function ContactPage() {
       {/* CTA Section */}
       <section className="py-16 xs:py-20 sm:py-24 px-3 xs:px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl xs:text-4xl sm:text-5xl font-bold mb-4 xs:mb-6 sm:mb-8">Ready to Get Started?</h2>
-          <p className="text-lg xs:text-xl sm:text-2xl text-muted-foreground mb-8 xs:mb-12 sm:mb-16">
-            Don't wait – your next creative project is just a message away.
-          </p>
+                      <h2 className="text-3xl xs:text-4xl sm:text-5xl font-bold mb-4 xs:mb-6 sm:mb-8">Ready to Move?</h2>
+            <p className="text-lg xs:text-xl sm:text-2xl text-muted-foreground mb-8 xs:mb-12 sm:mb-16">
+              Don't wait – your next creative project is just a message away.
+            </p>
           <div className="flex flex-col sm:flex-row gap-4 xs:gap-6 sm:gap-8 justify-center">
             <a 
               href="https://wa.me/1234567890" 

@@ -112,45 +112,47 @@ const HomePageClient = memo(({ featuredArtists, artworks }: { featuredArtists: A
       ) : null}
 
       {/* === Featured Artists Section (Spotlight Style) === */}
-      <section className="py-12 relative bg-black overflow-hidden">
+      <section className="py-8 relative bg-black overflow-hidden">
         {/* Spotlight effect */}
         <div className="absolute inset-0 z-0">
           {/* Multiple spotlight beams */}
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-b from-[#00ff9d]/50 via-[#00ff9d]/25 to-transparent rounded-full blur-3xl animate-pulse opacity-90"></div>
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-gradient-to-b from-[#22c55e]/50 via-[#22c55e]/25 to-transparent rounded-full blur-3xl animate-pulse delay-1000 opacity-90"></div>
           <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-gradient-to-t from-[#00ff9d]/40 via-[#00ff9d]/20 to-transparent rounded-full blur-3xl animate-pulse delay-500 opacity-90"></div>
-          
-          {/* Debug: Add a visible test element */}
-          <div className="absolute top-4 left-4 w-4 h-4 bg-red-500 rounded-full z-50"></div>
         </div>
         
-        <div className="relative z-20 container mx-auto px-4 w-full max-w-6xl">
-          <h2 className="text-4xl font-black mb-8 text-center text-white drop-shadow-lg">Featured Artists</h2>
+        <div className="relative z-20 container mx-auto px-4 w-full max-w-7xl">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white drop-shadow-lg tracking-tight">Featured Artists</h2>
+            <p className="text-sm sm:text-base text-white/70 mt-2 max-w-2xl mx-auto">The visionaries shaping our creative landscape</p>
+          </div>
           
           {featuredArtists && featuredArtists.length > 0 ? (
             <>
               <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-primary/40 scrollbar-track-transparent -mx-4 px-4">
-                <div className="flex gap-4 md:gap-6 justify-center">
+                <div className={`flex gap-4 justify-center min-w-max ${featuredArtists.length <= 3 ? 'mx-auto' : ''}`}>
                   {featuredArtists.map((artist) => (
-                    <div key={artist.id} className="relative min-w-[280px] max-w-xs flex-shrink-0 group">
+                    <div key={artist.id} className="relative w-72 flex-shrink-0 group">
                       <MemoizedArtistCard artist={artist} themeColor={artist.fields.ThemePrimaryColor} />
                       <Link href={`/artists/${artist.id}`}>
-                        <button className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 text-white font-bold text-lg rounded-2xl z-10 backdrop-blur-sm">
+                        <button className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 text-white font-bold text-lg rounded-xl z-10 backdrop-blur-sm">
                           View Profile
                         </button>
                       </Link>
                     </div>
                   ))}
                 </div>
-                <div className="mt-2 text-xs text-white/40 text-center select-none">Scroll to see more</div>
+                {featuredArtists.length > 3 && (
+                  <div className="mt-3 text-xs text-white/50 text-center select-none">Scroll to see more</div>
+                )}
               </div>
             </>
           ) : (
-            <div className="text-center py-12">
+            <div className="text-center py-8">
               <div className="text-white/60 text-lg mb-4">Loading featured artists...</div>
-              <div className="flex justify-center gap-4">
+              <div className="flex gap-4 justify-center">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="w-64 h-80 bg-white/5 rounded-2xl animate-pulse border border-white/10"></div>
+                  <div key={i} className="w-72 h-72 bg-white/5 rounded-xl animate-pulse border border-white/10"></div>
                 ))}
               </div>
             </div>

@@ -4,9 +4,9 @@ import { Logo } from "../ui/Logo";
 import LinkWithCursor from '../ui/LinkWithCursor';
 
 const navLinks = [
-  { href: "/artists", label: "Artists" },
+  { href: "/artists", label: "The Roster" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/contact", label: "Connect" },
 ];
 
 export default function Header() {

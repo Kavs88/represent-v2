@@ -170,6 +170,308 @@ export default function ArtistPageClient({ artist, reviews }: { artist: Artist; 
                 </section>
               )}
 
+              {/* Products & Services Section */}
+              <motion.section 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative overflow-hidden"
+              >
+                {/* Background gradient */}
+                <div 
+                  className="absolute inset-0 rounded-3xl opacity-60"
+                  style={{
+                    background: `linear-gradient(135deg, ${artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}08` : 'rgba(0, 255, 157, 0.08)'} 0%, ${artist.fields.ThemeBackgroundColor ? `${artist.fields.ThemeBackgroundColor}15` : 'rgba(14, 14, 14, 0.15)'} 50%, ${artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}05` : 'rgba(0, 255, 157, 0.05)'} 100%)`
+                  }}
+                />
+                
+                {/* Content */}
+                <div className="relative z-10 backdrop-blur-xl rounded-3xl p-6 sm:p-8 lg:p-10 border" style={{
+                  borderColor: artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}20` : 'rgba(0, 255, 157, 0.2)',
+                  boxShadow: `0 20px 60px ${artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}08` : 'rgba(0, 255, 157, 0.08)'}`
+                }}>
+                  <div className="text-center mb-8 sm:mb-10 lg:mb-12">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3 }}
+                      className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium mb-3 sm:mb-4"
+                      style={{
+                        backgroundColor: artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}20` : 'rgba(0, 255, 157, 0.2)',
+                        color: artist.fields.ThemePrimaryColor || '#00ff9d'
+                      }}
+                    >
+                      <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full" style={{ backgroundColor: artist.fields.ThemePrimaryColor || '#00ff9d' }} />
+                      Available Services
+                    </motion.div>
+                    
+                    <motion.h2 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.4 }}
+                      className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold mb-3 sm:mb-4"
+                      style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}
+                    >
+                      Products & Services
+                    </motion.h2>
+                    
+                    <motion.p 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.5 }}
+                      className="text-sm sm:text-base lg:text-lg font-light tracking-wide px-2"
+                      style={{ color: artist.fields.ThemeTextColor ? `${artist.fields.ThemeTextColor}80` : '#888888' }}
+                    >
+                      Explore {artist.fields.Name}'s available products and services
+                    </motion.p>
+                  </div>
+                  
+                  <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.6 }}
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
+                  >
+                    {/* Custom Commissions */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.7 }}
+                      className="bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border hover:transform hover:scale-105 transition-all duration-300"
+                      style={{
+                        borderColor: artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}30` : 'rgba(0, 255, 157, 0.3)'
+                      }}
+                    >
+                      <div className="p-4 sm:p-6">
+                        <div className="flex justify-between items-start mb-3">
+                          <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                            Custom Commissions
+                          </h3>
+                          <span className="text-sm sm:text-base font-bold" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>
+                            From $200
+                          </span>
+                        </div>
+                        <p className="text-sm sm:text-base mb-4" style={{ color: artist.fields.ThemeTextColor ? `${artist.fields.ThemeTextColor}80` : '#888888' }}>
+                          Personalized artwork created specifically for your vision and requirements.
+                        </p>
+                        <button 
+                          onClick={() => setIsContactModalOpen(true)}
+                          className="w-full py-2 px-4 rounded-lg font-semibold text-sm sm:text-base transition-colors"
+                          style={{
+                            backgroundColor: artist.fields.ThemePrimaryColor || '#00ff9d',
+                            color: '#000000'
+                          }}
+                        >
+                          Discuss Project
+                        </button>
+                      </div>
+                    </motion.div>
+
+                    {/* Original Artworks */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.8 }}
+                      className="bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border hover:transform hover:scale-105 transition-all duration-300"
+                      style={{
+                        borderColor: artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}30` : 'rgba(0, 255, 157, 0.3)'
+                      }}
+                    >
+                      <div className="p-4 sm:p-6">
+                        <div className="flex justify-between items-start mb-3">
+                          <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                            Original Artworks
+                          </h3>
+                          <span className="text-sm sm:text-base font-bold" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>
+                            From $150
+                          </span>
+                        </div>
+                        <p className="text-sm sm:text-base mb-4" style={{ color: artist.fields.ThemeTextColor ? `${artist.fields.ThemeTextColor}80` : '#888888' }}>
+                          One-of-a-kind pieces available for purchase from the artist's collection.
+                        </p>
+                        <button 
+                          onClick={() => setIsContactModalOpen(true)}
+                          className="w-full py-2 px-4 rounded-lg font-semibold text-sm sm:text-base transition-colors"
+                          style={{
+                            backgroundColor: artist.fields.ThemePrimaryColor || '#00ff9d',
+                            color: '#000000'
+                          }}
+                        >
+                          View Available
+                        </button>
+                      </div>
+                    </motion.div>
+
+                    {/* Prints & Reproductions */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.9 }}
+                      className="bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border hover:transform hover:scale-105 transition-all duration-300"
+                      style={{
+                        borderColor: artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}30` : 'rgba(0, 255, 157, 0.3)'
+                      }}
+                    >
+                      <div className="p-4 sm:p-6">
+                        <div className="flex justify-between items-start mb-3">
+                          <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                            Prints & Reproductions
+                          </h3>
+                          <span className="text-sm sm:text-base font-bold" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>
+                            From $50
+                          </span>
+                        </div>
+                        <p className="text-sm sm:text-base mb-4" style={{ color: artist.fields.ThemeTextColor ? `${artist.fields.ThemeTextColor}80` : '#888888' }}>
+                          High-quality prints and reproductions of the artist's most popular works.
+                        </p>
+                        <button 
+                          onClick={() => setIsContactModalOpen(true)}
+                          className="w-full py-2 px-4 rounded-lg font-semibold text-sm sm:text-base transition-colors"
+                          style={{
+                            backgroundColor: artist.fields.ThemePrimaryColor || '#00ff9d',
+                            color: '#000000'
+                          }}
+                        >
+                          Browse Prints
+                        </button>
+                      </div>
+                    </motion.div>
+
+                    {/* Art Classes */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.0 }}
+                      className="bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border hover:transform hover:scale-105 transition-all duration-300"
+                      style={{
+                        borderColor: artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}30` : 'rgba(0, 255, 157, 0.3)'
+                      }}
+                    >
+                      <div className="p-4 sm:p-6">
+                        <div className="flex justify-between items-start mb-3">
+                          <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                            Art Classes
+                          </h3>
+                          <span className="text-sm sm:text-base font-bold" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>
+                            From $75
+                          </span>
+                        </div>
+                        <p className="text-sm sm:text-base mb-4" style={{ color: artist.fields.ThemeTextColor ? `${artist.fields.ThemeTextColor}80` : '#888888' }}>
+                          Learn from {artist.fields.Name} through private or group art classes.
+                        </p>
+                        <button 
+                          onClick={() => setIsContactModalOpen(true)}
+                          className="w-full py-2 px-4 rounded-lg font-semibold text-sm sm:text-base transition-colors"
+                          style={{
+                            backgroundColor: artist.fields.ThemePrimaryColor || '#00ff9d',
+                            color: '#000000'
+                          }}
+                        >
+                          Book Class
+                        </button>
+                      </div>
+                    </motion.div>
+
+                    {/* Digital Art */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.1 }}
+                      className="bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border hover:transform hover:scale-105 transition-all duration-300"
+                      style={{
+                        borderColor: artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}30` : 'rgba(0, 255, 157, 0.3)'
+                      }}
+                    >
+                      <div className="p-4 sm:p-6">
+                        <div className="flex justify-between items-start mb-3">
+                          <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                            Digital Art
+                          </h3>
+                          <span className="text-sm sm:text-base font-bold" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>
+                            From $100
+                          </span>
+                        </div>
+                        <p className="text-sm sm:text-base mb-4" style={{ color: artist.fields.ThemeTextColor ? `${artist.fields.ThemeTextColor}80` : '#888888' }}>
+                          Custom digital artwork for branding, social media, or personal use.
+                        </p>
+                        <button 
+                          onClick={() => setIsContactModalOpen(true)}
+                          className="w-full py-2 px-4 rounded-lg font-semibold text-sm sm:text-base transition-colors"
+                          style={{
+                            backgroundColor: artist.fields.ThemePrimaryColor || '#00ff9d',
+                            color: '#000000'
+                          }}
+                        >
+                          Get Quote
+                        </button>
+                      </div>
+                    </motion.div>
+
+                    {/* Art Consultation */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.2 }}
+                      className="bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border hover:transform hover:scale-105 transition-all duration-300"
+                      style={{
+                        borderColor: artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}30` : 'rgba(0, 255, 157, 0.3)'
+                      }}
+                    >
+                      <div className="p-4 sm:p-6">
+                        <div className="flex justify-between items-start mb-3">
+                          <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                            Art Consultation
+                          </h3>
+                          <span className="text-sm sm:text-base font-bold" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>
+                            From $150
+                          </span>
+                        </div>
+                        <p className="text-sm sm:text-base mb-4" style={{ color: artist.fields.ThemeTextColor ? `${artist.fields.ThemeTextColor}80` : '#888888' }}>
+                          Professional advice on art selection, curation, and collection building.
+                        </p>
+                        <button 
+                          onClick={() => setIsContactModalOpen(true)}
+                          className="w-full py-2 px-4 rounded-lg font-semibold text-sm sm:text-base transition-colors"
+                          style={{
+                            backgroundColor: artist.fields.ThemePrimaryColor || '#00ff9d',
+                            color: '#000000'
+                          }}
+                        >
+                          Schedule Call
+                        </button>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+
+                  <div className="text-center mt-8 sm:mt-12">
+                    <motion.p 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.3 }}
+                      className="text-sm sm:text-base mb-4 px-2"
+                      style={{ color: artist.fields.ThemeTextColor ? `${artist.fields.ThemeTextColor}80` : '#888888' }}
+                    >
+                      All prices are estimates. Final pricing depends on size, complexity, and materials.
+                    </motion.p>
+                    <motion.button
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.4 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setIsContactModalOpen(true)}
+                      className="px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-all duration-200 hover:shadow-lg"
+                      style={{
+                        backgroundColor: artist.fields.ThemePrimaryColor || '#00ff9d',
+                        color: '#000000'
+                      }}
+                    >
+                      Get Custom Quote
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.section>
+
               {/* Reviews Section */}
               {reviews.length > 0 && (
                 <motion.section 
