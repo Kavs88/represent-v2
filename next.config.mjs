@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Performance optimizations
+  // Performance optimizations - Updated for Vercel deployment
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
