@@ -22,13 +22,13 @@ export interface Review {
 export interface Service {
   id: string;
   fields: {
-    Name: string;
-    Description?: string;
-    "Price Range"?: string;
-    Category?: string;
-    "Artist ID": string[]; // Array of artist IDs
-    Featured?: boolean;
-    "Image URL"?: string;
+    Name: string; // Service name
+    Description?: string; // Service description
+    "Price Range"?: string; // Price range as string (not date)
+    Category?: string; // Service category
+    "Artist ID": string[]; // Array of artist record IDs
+    Featured?: boolean; // Whether the service is featured (Airtable checkbox)
+    "Image URL"?: string; // Image URL for the service
   };
 }
 

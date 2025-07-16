@@ -419,54 +419,34 @@ export const getArtistFeaturedServices = async (artistId: string): Promise<Servi
   try {
     const cacheKey = `services_${artistId}`;
     const cached = getCachedData(cacheKey);
-    
     if (cached) {
       return cached;
     }
-    
     await throttleRequest();
-    
-    console.log(`Fetching featured services for artist ID: ${artistId}`);
-    
-    // Get all services
+    // Fetch all services from Airtable
     const allServicesQuery = servicesTable.select();
     const allRecords = await allServicesQuery.all();
-    console.log(`Found ${allRecords.length} total services`);
-    
-    // Filter services that match the artist ID and are featured
+    // Filter services that match the artist ID (do not require Featured)
     const filteredRecords = allRecords.filter(record => {
       const artistField = record.get("Artist ID");
-      const featuredField = record.get("Featured");
-      console.log(`Service ${record.id} artist field:`, artistField, 'featured:', featuredField);
-      return artistField && Array.isArray(artistField) && artistField.includes(artistId) && featuredField === true;
+      return artistField && Array.isArray(artistField) && artistField.includes(artistId);
     });
-    
-    console.log(`Filtered to ${filteredRecords.length} featured services for artist ${artistId}`);
-    
+    // Map to Service type, treating Price Range as string
     const services: Service[] = filteredRecords.map(record => {
-      const artistField = record.get("Artist ID") as string[];
-      const nameField = record.get("Name") as string;
-      const descriptionField = record.get("Description") as string;
-      const priceField = record.get("Price Range") as string;
-      const categoryField = record.get("Category") as string;
-      const imageField = record.get("Image URL") as string;
-      
       return {
         id: record.id,
         fields: {
-          Name: nameField || "",
-          Description: descriptionField || "",
-          "Price Range": priceField || "",
-          Category: categoryField || "",
-          "Artist ID": artistField || [],
+          Name: record.get("Name") as string || "",
+          Description: record.get("Description") as string || "",
+          "Price Range": record.get("Price Range") as string || "",
+          Category: record.get("Category") as string || "",
+          "Artist ID": record.get("Artist ID") as string[] || [],
           Featured: record.get("Featured") as boolean || false,
-          "Image URL": imageField || "",
+          "Image URL": record.get("Image URL") as string || "",
         }
       };
     });
-    
-    console.log(`Returning ${services.length} featured services`);
-    
+    console.log(`Services for artist ${artistId}:`, services);
     setCachedData(cacheKey, services);
     return services;
   } catch (error) {

@@ -1,6 +1,6 @@
 // app/artists/[id]/page.tsx
 
-import { getArtistById, getArtistReviews } from "@/lib/airtable";
+import { getArtistById, getArtistReviews, getArtistFeaturedServices } from "@/lib/airtable";
 import { notFound } from "next/navigation";
 import ArtistPageClient from "./ArtistPageClient";
 import SEOHead from "@/components/ui/SEOHead";
@@ -12,9 +12,10 @@ export default async function ArtistPage({ params }: { params: { id: string } })
   console.log(`ArtistPage: Fetching data for artist ID: ${params.id}`);
   
   // 1. Fetch this specific artist's data and reviews on the server
-  const [artist, reviews] = await Promise.all([
+  const [artist, reviews, services] = await Promise.all([
     getArtistById(params.id),
-    getArtistReviews(params.id)
+    getArtistReviews(params.id),
+    getArtistFeaturedServices(params.id)
   ]);
 
   console.log(`ArtistPage: Artist found:`, artist?.fields.Name);
@@ -54,7 +55,7 @@ export default async function ArtistPage({ params }: { params: { id: string } })
         type="profile"
         artist={artistSEO}
       />
-      <ArtistPageClient artist={artist} reviews={reviews} />
+      <ArtistPageClient artist={artist} reviews={reviews} services={services} />
     </>
   );
 }
