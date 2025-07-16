@@ -65,9 +65,7 @@ export const artistSchema = z.object({
     GeneratedBannerImage: z.array(attachmentSchema).optional(),
     ThemePrimaryColor: z.string().optional(),
     ThemeBackgroundColor: z.string().optional(),
-    ThemeTextColor: z.string().optional(),
-    Location: z.string().optional(),
-    TestLocation: z.string().optional(),
+    ThemeTextColor: z.string().optional()
   }),
 });
 
