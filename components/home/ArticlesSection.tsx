@@ -36,7 +36,7 @@ export default function ArticlesSection() {
         <h2 className="text-4xl font-black mb-8 text-center text-white drop-shadow-lg">Articles & Media</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {articles.map((article) => (
-            <div key={article.id} className="bg-white/10 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden flex flex-col border-2 border-orange-500/30 hover:border-orange-500/50 transition-all duration-300">
+            <div key={article.id} className="bg-white/10 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden flex flex-col border-4 border-[#00FF9D]/50 hover:border-[#00FF9D]/70 transition-all duration-300">
               <div className="relative w-full aspect-video">
                 <Image src={article.image} alt={article.title} fill className="object-cover" />
               </div>

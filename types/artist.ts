@@ -2,6 +2,8 @@ export interface Attachment {
   id: string;
   url: string;
   filename: string;
+  size?: number;
+  type?: string;
 }
 
 export interface Review {
@@ -14,6 +16,19 @@ export interface Review {
     Date: string;
     Featured?: boolean;
     Approved?: boolean;
+  };
+}
+
+export interface Service {
+  id: string;
+  fields: {
+    Name: string;
+    Description?: string;
+    "Price Range"?: string;
+    Category?: string;
+    "Artist ID": string[]; // Array of artist IDs
+    Featured?: boolean;
+    "Image URL"?: string;
   };
 }
 
@@ -32,5 +47,6 @@ export interface Artist {
     ThemePrimaryColor?: string;
     ThemeBackgroundColor?: string;
     ThemeTextColor?: string;
+    Location?: string; // Added location field
   };
 } 

@@ -129,19 +129,19 @@ const HomePageClient = memo(({ featuredArtists, artworks }: { featuredArtists: A
           
           {featuredArtists && featuredArtists.length > 0 ? (
             <>
-              <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-primary/40 scrollbar-track-transparent -mx-4 px-4">
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-primary/40 scrollbar-track-transparent -mx-4 px-4">
                 <div className={`flex gap-4 justify-center min-w-max ${featuredArtists.length <= 3 ? 'mx-auto' : ''}`}>
-                  {featuredArtists.map((artist) => (
+              {featuredArtists.map((artist) => (
                     <div key={artist.id} className="relative w-72 flex-shrink-0 group">
                       <MemoizedArtistCard artist={artist} themeColor={artist.fields.ThemePrimaryColor} />
-                      <Link href={`/artists/${artist.id}`}>
+                  <Link href={`/artists/${artist.id}`}>
                         <button className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 text-white font-bold text-lg rounded-xl z-10 backdrop-blur-sm">
-                          View Profile
-                        </button>
-                      </Link>
-                    </div>
-                  ))}
+                      View Profile
+                    </button>
+                  </Link>
                 </div>
+              ))}
+            </div>
                 {featuredArtists.length > 3 && (
                   <div className="mt-3 text-xs text-white/50 text-center select-none">Scroll to see more</div>
                 )}
@@ -155,7 +155,7 @@ const HomePageClient = memo(({ featuredArtists, artworks }: { featuredArtists: A
                   <div key={i} className="w-72 h-72 bg-white/5 rounded-xl animate-pulse border border-white/10"></div>
                 ))}
               </div>
-            </div>
+          </div>
           )}
         </div>
         {/* Spotlight SVG Divider */}
@@ -212,8 +212,8 @@ const HomePageClient = memo(({ featuredArtists, artworks }: { featuredArtists: A
               </div>
             </div>
           }>
-            <LazyArticlesSection />
-          </Suspense>
+          <LazyArticlesSection />
+        </Suspense>
         </div>
       </section>
     </div>

@@ -66,6 +66,8 @@ export const artistSchema = z.object({
     ThemePrimaryColor: z.string().optional(),
     ThemeBackgroundColor: z.string().optional(),
     ThemeTextColor: z.string().optional(),
+    Location: z.string().optional(),
+    TestLocation: z.string().optional(),
   }),
 });
 
@@ -88,6 +90,22 @@ export const reviewSchema = z.object({
 
 export type Review = z.infer<typeof reviewSchema>;
 
+// Service schema
+export const serviceSchema = z.object({
+  id: z.string(),
+  fields: z.object({
+    Name: z.string(),
+    Description: z.string().optional(),
+    "Price Range": z.string().optional(),
+    Category: z.string().optional(),
+    "Artist ID": z.array(z.string()),
+    Featured: z.boolean().optional(),
+    "Image URL": z.string().optional(),
+  }),
+});
+
+export type Service = z.infer<typeof serviceSchema>;
+
 // ==================================
 // AIRTABLE CONFIG & FUNCTIONS
 // ==================================
@@ -97,6 +115,7 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
 );
 const table = base("Artists");
 const reviewsTable = base("Reviews");
+const servicesTable = base("Services");
 
 // ==================================
 // Internal Record Processor (The Guard)
@@ -137,7 +156,7 @@ export const getArtists = async (options: { featuredOnly?: boolean } = {}): Prom
     const query = table.select({
       fields: [
         "Name",
-        "Speciality", 
+        "Speciality",
         "Bio",
         "ProfileImage",
         "Artwork",
@@ -147,7 +166,9 @@ export const getArtists = async (options: { featuredOnly?: boolean } = {}): Prom
         "GeneratedBannerImage",
         "ThemePrimaryColor",
         "ThemeBackgroundColor",
-        "ThemeTextColor"
+        "ThemeTextColor",
+        "Location",
+        "TestLocation"
       ],
       sort: [{ field: "Name", direction: "asc" }],
       filterByFormula: options.featuredOnly ? "{Featured} = 1" : "",
@@ -385,6 +406,71 @@ export const getArtistsByIds = async (ids: string[]): Promise<Artist[]> => {
     return processed;
   } catch (error) {
     console.error("Airtable API error in getArtistsByIds:", error);
+    return [];
+  }
+};
+
+/**
+ * Fetches featured services for a specific artist.
+ * Returns only featured services for the given artist ID.
+ * Now includes caching for better performance.
+ */
+export const getArtistFeaturedServices = async (artistId: string): Promise<Service[]> => {
+  try {
+    const cacheKey = `services_${artistId}`;
+    const cached = getCachedData(cacheKey);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    await throttleRequest();
+    
+    console.log(`Fetching featured services for artist ID: ${artistId}`);
+    
+    // Get all services
+    const allServicesQuery = servicesTable.select();
+    const allRecords = await allServicesQuery.all();
+    console.log(`Found ${allRecords.length} total services`);
+    
+    // Filter services that match the artist ID and are featured
+    const filteredRecords = allRecords.filter(record => {
+      const artistField = record.get("Artist ID");
+      const featuredField = record.get("Featured");
+      console.log(`Service ${record.id} artist field:`, artistField, 'featured:', featuredField);
+      return artistField && Array.isArray(artistField) && artistField.includes(artistId) && featuredField === true;
+    });
+    
+    console.log(`Filtered to ${filteredRecords.length} featured services for artist ${artistId}`);
+    
+    const services: Service[] = filteredRecords.map(record => {
+      const artistField = record.get("Artist ID") as string[];
+      const nameField = record.get("Name") as string;
+      const descriptionField = record.get("Description") as string;
+      const priceField = record.get("Price Range") as string;
+      const categoryField = record.get("Category") as string;
+      const imageField = record.get("Image URL") as string;
+      
+      return {
+        id: record.id,
+        fields: {
+          Name: nameField || "",
+          Description: descriptionField || "",
+          "Price Range": priceField || "",
+          Category: categoryField || "",
+          "Artist ID": artistField || [],
+          Featured: record.get("Featured") as boolean || false,
+          "Image URL": imageField || "",
+        }
+      };
+    });
+    
+    console.log(`Returning ${services.length} featured services`);
+    
+    setCachedData(cacheKey, services);
+    return services;
+  } catch (error) {
+    console.error('Airtable API error in getArtistFeaturedServices:', error);
     return [];
   }
 };

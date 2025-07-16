@@ -44,14 +44,14 @@ export default function ArtworkCarousel({ artworks }: { artworks: Attachment[] }
                     border: '1px solid rgba(23, 98, 74, 0.2)'
                   }}
                 >
-                <Image
-                  src={artwork.url}
+              <Image
+                src={artwork.url}
                   alt={artwork.filename || `Featured artwork ${idx + 1}`}
-                  fill
+                fill
                   className="object-contain rounded-2xl transition-transform duration-300 hover:scale-105 drop-shadow-lg"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
                   priority={idx === 0}
-                />
+              />
                 {/* Removed filename overlay - keeping clean display */}
               </motion.div>
             ))}

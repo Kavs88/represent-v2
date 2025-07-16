@@ -67,8 +67,8 @@ export default function HomePageClient({ featuredArtists, artworks }: HomePageCl
               href="/artists" 
               className="mt-6 sm:mt-8 bg-[#17624A] text-white font-bold text-2xl px-12 py-6 rounded-full shadow-xl hover:brightness-110 transition-all border border-[#17624A]/30"
             >
-              Explore the Roster
-            </MagneticButton>
+                Explore the Roster
+              </MagneticButton>
           </RevealOnScroll>
         </div>
       </section>
@@ -120,14 +120,14 @@ export default function HomePageClient({ featuredArtists, artworks }: HomePageCl
               href="/artists"
               className="bg-[#17624A] text-white font-bold text-2xl px-12 py-6 rounded-full shadow-xl hover:brightness-110 transition-all border border-[#17624A]/30"
             >
-              View All Artists
-            </MagneticButton>
+                View All Artists
+              </MagneticButton>
             <MagneticButton 
               href="/contact"
               className="bg-[#17624A] text-white font-bold text-2xl px-12 py-6 rounded-full shadow-xl hover:brightness-110 transition-all border border-[#17624A]/30"
             >
-              Contact the Agency
-            </MagneticButton>
+                Contact the Agency
+              </MagneticButton>
           </div>
         </div>
       </section>

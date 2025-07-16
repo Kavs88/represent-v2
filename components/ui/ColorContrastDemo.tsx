@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { useColorContrast, validateColorAccessibility } from '@/hooks/useColorContrast';
+import { useColorContrast } from '@/hooks/useColorContrast';
+import { validateColorAccessibility } from '@/lib/colorUtils';
 
 export default function ColorContrastDemo() {
   const [backgroundColor, setBackgroundColor] = useState('#ff6b35');

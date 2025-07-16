@@ -106,10 +106,10 @@ const AboutPage = memo(function AboutPage() {
                     </p>
                     <p className="text-sm sm:text-base md:text-lg leading-relaxed text-white/80">
                       We're here to amplify visionaries, not just manage them. This is a platform built for artists who want to shape culture.
-                    </p>
+                  </p>
                     <p className="text-sm sm:text-base md:text-lg leading-relaxed text-white/90 font-medium">
                       <span className="text-primary font-bold">Represent+</span> is a curated ecosystem where artists thrive and set new standards—together.
-                    </p>
+                  </p>
                   </div>
                 </div>
               </motion.div>

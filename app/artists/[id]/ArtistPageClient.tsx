@@ -1,14 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { ArtworkCarousel } from "@/components/artists/ArtworkCarousel";
-import PlatformContactButtons from "@/components/ui/PlatformContactButtons";
-import ContactModal from "@/components/ui/ContactModal";
+import dynamic from 'next/dynamic';
 import ReviewCard from "@/components/artists/ReviewCard";
 import { Artist, Review } from "@/types/artist";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import ReactMarkdown from 'react-markdown';
+import PlatformContactButtons from "@/components/ui/PlatformContactButtons";
+
+const ArtworkCarousel = dynamic(() => import('@/components/artists/ArtworkCarousel').then(mod => mod.ArtworkCarousel), { ssr: false });
+const ContactModal = dynamic(() => import('@/components/ui/ContactModal'), { ssr: false });
 
 export default function ArtistPageClient({ artist, reviews }: { artist: Artist; reviews: Review[] }) {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);

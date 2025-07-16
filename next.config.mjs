@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
+import createBundleAnalyzer from '@next/bundle-analyzer';
+
+const withBundleAnalyzer = createBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig = {
   // Performance optimizations - Updated for Vercel deployment
   experimental: {
@@ -8,6 +14,10 @@ const nextConfig = {
   
   // Image optimization
   images: {
+    domains: [
+      'v5.airtableusercontent.com',
+      // add any other domains you need here
+    ],
     remotePatterns: [
       {
         protocol: 'https',
@@ -103,4 +113,6 @@ const nextConfig = {
   },
 };
 
-export default nextConfig; 
+export default withBundleAnalyzer({
+  ...nextConfig,
+}); 
