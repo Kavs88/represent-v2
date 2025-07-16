@@ -167,7 +167,7 @@ export const getArtists = async (options: { featuredOnly?: boolean } = {}): Prom
         "ThemePrimaryColor",
         "ThemeBackgroundColor",
         "ThemeTextColor",
-        "Location",
+        // "Location", // Removed as not used
         "TestLocation"
       ],
       sort: [{ field: "Name", direction: "asc" }],
