@@ -98,7 +98,7 @@ export default function HomePageClient({ featuredArtists, artworks }: HomePageCl
               </p>
             </RevealOnScroll>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 w-full">
             {featuredArtists.map((artist) => (
               <div key={artist.id} className="w-full flex justify-center">
                 <ArtistCard artist={artist} themeColor={artist.fields.ThemePrimaryColor} />
