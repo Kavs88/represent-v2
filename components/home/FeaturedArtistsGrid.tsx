@@ -89,8 +89,8 @@ export default function FeaturedArtistsGrid({ featuredArtists }: FeaturedArtists
           </RevealOnScroll>
         </div>
 
-        {/* Masonry-style artwork grid */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 sm:gap-6 lg:gap-8 space-y-4 sm:space-y-6 lg:space-y-8">
+        {/* Mobile-friendly artwork grid - one tile at a time on mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {artworkItems.map((item, index) => (
             <motion.div
               key={item.id}
@@ -101,7 +101,7 @@ export default function FeaturedArtistsGrid({ featuredArtists }: FeaturedArtists
                 delay: index * 0.1,
                 ease: [0.25, 0.46, 0.45, 0.94]
               }}
-              className="break-inside-avoid mb-4 sm:mb-6 lg:mb-8 group"
+              className="group"
               onMouseEnter={() => setHoveredArtist(item.artistId)}
               onMouseLeave={() => setHoveredArtist(null)}
             >
