@@ -89,8 +89,8 @@ export default function FeaturedArtistsGrid({ featuredArtists }: FeaturedArtists
           </RevealOnScroll>
         </div>
 
-        {/* Mobile-friendly artwork grid - one tile at a time on mobile */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        {/* Mobile-friendly artwork grid - zoomed out view on mobile */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4 lg:gap-6">
           {artworkItems.map((item, index) => (
             <motion.div
               key={item.id}
@@ -106,18 +106,15 @@ export default function FeaturedArtistsGrid({ featuredArtists }: FeaturedArtists
               onMouseLeave={() => setHoveredArtist(null)}
             >
               <Link href={`/artists/${item.artistId}`}>
-                <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] bg-black/10">
-                  {/* Artwork Image */}
-                  <div className="relative w-full" style={{ 
-                    aspectRatio: item.aspectRatio > 1.5 ? '16/9' : 
-                                 item.aspectRatio < 0.8 ? '4/5' : '1/1'
-                  }}>
+                <div className="relative overflow-hidden rounded-lg sm:rounded-xl lg:rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] bg-black/10">
+                  {/* Artwork Image - smaller on mobile */}
+                  <div className="relative w-full aspect-square">
                     <Image
                       src={item.artwork.url}
                       alt={item.artwork.filename || `${item.artistName} artwork`}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
                       loading={index < 8 ? "eager" : "lazy"}
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
@@ -126,11 +123,11 @@ export default function FeaturedArtistsGrid({ featuredArtists }: FeaturedArtists
                     {/* Gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     
-                    {/* Artist info overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
-                      <div className="flex items-center gap-3">
-                        {/* Artist avatar */}
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white/20 overflow-hidden flex-shrink-0">
+                    {/* Artist info overlay - smaller on mobile */}
+                    <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 lg:p-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 sm:translate-y-4 group-hover:translate-y-0">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        {/* Artist avatar - smaller on mobile */}
+                        <div className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-full border-2 border-white/20 overflow-hidden flex-shrink-0">
                           <Image
                             src={featuredArtists.find(a => a.id === item.artistId)?.fields.ProfileImage?.[0]?.url || '/placeholder-avatar.png'}
                             alt={item.artistName}
@@ -140,25 +137,25 @@ export default function FeaturedArtistsGrid({ featuredArtists }: FeaturedArtists
                           />
                         </div>
                         
-                        {/* Artist name and specialty */}
+                        {/* Artist name and specialty - smaller text on mobile */}
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-white font-bold text-sm sm:text-base truncate">
+                          <h3 className="text-white font-bold text-xs sm:text-sm lg:text-base truncate">
                             {item.artistName}
                           </h3>
                           {featuredArtists.find(a => a.id === item.artistId)?.fields.Speciality && (
-                            <p className="text-white/80 text-xs sm:text-sm truncate">
+                            <p className="text-white/80 text-xs truncate">
                               {featuredArtists.find(a => a.id === item.artistId)?.fields.Speciality}
                             </p>
                           )}
                         </div>
                         
-                        {/* View profile button */}
+                        {/* View profile button - smaller on mobile */}
                         <div className="flex-shrink-0">
                           <div 
-                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-110"
+                            className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-110"
                             style={{ backgroundColor: item.themeColor }}
                           >
-                            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                           </div>
@@ -166,9 +163,9 @@ export default function FeaturedArtistsGrid({ featuredArtists }: FeaturedArtists
                       </div>
                     </div>
                     
-                    {/* Theme color accent */}
+                    {/* Theme color accent - smaller on mobile */}
                     <div 
-                      className="absolute top-4 left-4 w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="absolute top-2 sm:top-4 left-2 sm:left-4 w-1 h-1 sm:w-2 sm:h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       style={{ backgroundColor: item.themeColor }}
                     />
                   </div>
