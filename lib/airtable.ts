@@ -427,25 +427,52 @@ export const getArtistFeaturedServices = async (artistId: string): Promise<Servi
     const allRecords = await allServicesQuery.all();
     console.log(`Found ${allRecords.length} total services`);
     
+    // Log the first record to see all available field names
+    if (allRecords.length > 0) {
+      console.log('Available fields in Services table:', Object.keys(allRecords[0].fields));
+      console.log('Sample service record fields:', allRecords[0].fields);
+    }
+    
     // Log each service record to see what we have
     allRecords.forEach((record, index) => {
       console.log(`Service ${index + 1}:`, {
         id: record.id,
         name: record.get("Name"),
+        // Try different possible field names for artist relationship
         artistId: record.get("Artist ID"),
+        artist: record.get("Artist"),
+        artistName: record.get("Artist Name"),
         description: record.get("Description"),
         priceRange: record.get("Price Range"),
         category: record.get("Category")
       });
     });
     
-    // Filter services that match the artist ID (do not require Featured)
-    const filteredRecords = allRecords.filter(record => {
-      const artistField = record.get("Artist ID");
-      console.log(`Service ${record.id} artist field:`, artistField);
-      return artistField && Array.isArray(artistField) && artistField.includes(artistId);
-    });
+    // Try different field names for the artist relationship
+    const possibleArtistFields = ["Artist ID", "Artist", "Artist Name", "ArtistID"];
+    let artistFieldName = null;
+    let filteredRecords = [];
     
+    for (const fieldName of possibleArtistFields) {
+      const testFilter = allRecords.filter(record => {
+        const artistField = record.get(fieldName);
+        return artistField && (Array.isArray(artistField) ? artistField.includes(artistId) : artistField === artistId);
+      });
+      
+      if (testFilter.length > 0) {
+        artistFieldName = fieldName;
+        filteredRecords = testFilter;
+        console.log(`Found ${filteredRecords.length} services using field "${fieldName}"`);
+        break;
+      }
+    }
+    
+    if (!artistFieldName) {
+      console.log('No services found with any artist field. Available fields:', Object.keys(allRecords[0]?.fields || {}));
+      return [];
+    }
+    
+    console.log(`Using field "${artistFieldName}" for artist relationship`);
     console.log(`Filtered to ${filteredRecords.length} services for artist ${artistId}`);
     
     // Map to Service type, treating Price Range as string
@@ -457,7 +484,7 @@ export const getArtistFeaturedServices = async (artistId: string): Promise<Servi
           Description: record.get("Description") as string || "",
           "Price Range": record.get("Price Range") as string || "",
           Category: record.get("Category") as string || "",
-          "Artist ID": record.get("Artist ID") as string[] || [],
+          "Artist ID": record.get(artistFieldName!) as string[] || [],
           Featured: record.get("Featured") as boolean || false,
           "Image URL": record.get("Image URL") as string || "",
         }
