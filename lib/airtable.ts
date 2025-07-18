@@ -419,14 +419,35 @@ export const getArtistFeaturedServices = async (artistId: string): Promise<Servi
       return cached;
     }
     await throttleRequest();
+    
+    console.log(`Fetching services for artist ID: ${artistId}`);
+    
     // Fetch all services from Airtable
     const allServicesQuery = servicesTable.select();
     const allRecords = await allServicesQuery.all();
+    console.log(`Found ${allRecords.length} total services`);
+    
+    // Log each service record to see what we have
+    allRecords.forEach((record, index) => {
+      console.log(`Service ${index + 1}:`, {
+        id: record.id,
+        name: record.get("Name"),
+        artistId: record.get("Artist ID"),
+        description: record.get("Description"),
+        priceRange: record.get("Price Range"),
+        category: record.get("Category")
+      });
+    });
+    
     // Filter services that match the artist ID (do not require Featured)
     const filteredRecords = allRecords.filter(record => {
       const artistField = record.get("Artist ID");
+      console.log(`Service ${record.id} artist field:`, artistField);
       return artistField && Array.isArray(artistField) && artistField.includes(artistId);
     });
+    
+    console.log(`Filtered to ${filteredRecords.length} services for artist ${artistId}`);
+    
     // Map to Service type, treating Price Range as string
     const services: Service[] = filteredRecords.map(record => {
       return {
@@ -442,7 +463,7 @@ export const getArtistFeaturedServices = async (artistId: string): Promise<Servi
         }
       };
     });
-    console.log(`Services for artist ${artistId}:`, services);
+    console.log(`Returning ${services.length} services for artist ${artistId}:`, services);
     setCachedData(cacheKey, services);
     return services;
   } catch (error) {
