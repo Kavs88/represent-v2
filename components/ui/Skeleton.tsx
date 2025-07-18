@@ -31,30 +31,28 @@ export function Skeleton({
 // Pre-built skeleton components
 export function ArtistCardSkeleton() {
   return (
-    <div className="w-full max-w-xs h-auto flex flex-col bg-card rounded-xl border border-border shadow-lg overflow-hidden">
-      {/* Image skeleton */}
-      <div className="flex flex-col items-center justify-center" style={{minHeight: '180px'}}>
-        <div className="flex-1" />
+    <div className="w-full max-w-xs min-h-[400px] h-full flex flex-col justify-between bg-card rounded-xl border border-border shadow-lg overflow-hidden px-6 py-6">
+      {/* Top: Image skeleton */}
+      <div className="flex flex-col items-center pt-2 pb-4">
         <Skeleton 
           width="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-48 lg:h-48" 
           height="h-28 sm:h-36 md:h-44 lg:h-48" 
           rounded="full" 
           className="bg-gray-600"
         />
-        <div className="flex-1" />
       </div>
-      
-      {/* Content skeleton */}
-      <div className="p-4 sm:p-6 flex-1 flex flex-col gap-2">
+      {/* Middle: Content skeletons */}
+      <div className="flex-1 flex flex-col items-center justify-center gap-y-2">
         <Skeleton width="w-3/4" height="h-6" className="mx-auto" />
         <Skeleton width="w-1/2" height="h-4" className="mx-auto" />
         <div className="flex justify-center gap-2 mt-2">
           <Skeleton width="w-16" height="h-6" rounded="full" />
           <Skeleton width="w-20" height="h-6" rounded="full" />
         </div>
-        <div className="mt-auto text-center">
-          <Skeleton width="w-24" height="h-4" className="mx-auto" />
-        </div>
+      </div>
+      {/* Bottom: CTA skeleton */}
+      <div className="flex items-center justify-center pt-4 pb-2">
+        <Skeleton width="w-24" height="h-4" className="mx-auto" />
       </div>
     </div>
   );

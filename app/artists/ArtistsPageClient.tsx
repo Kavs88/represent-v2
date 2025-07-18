@@ -117,9 +117,9 @@ const ArtistsPageClient = memo(function ArtistsPageClient({ artists, allTags }: 
 
         {/* Artists Grid */}
         {filteredArtists.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 w-full items-stretch">
             {filteredArtists.map((artist) => (
-              <div key={artist.id} className="w-full flex justify-center">
+              <div key={artist.id} className="w-full flex justify-center h-full">
                 <ArtistCard artist={artist} />
               </div>
             ))}
