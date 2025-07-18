@@ -9,12 +9,18 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import ReactMarkdown from 'react-markdown';
 import PlatformContactButtons from "@/components/ui/PlatformContactButtons";
+import { ServiceCardSkeleton, ReviewCardSkeleton } from "@/components/ui/Skeleton";
 
 const ArtworkCarousel = dynamic(() => import('@/components/artists/ArtworkCarousel').then(mod => mod.ArtworkCarousel), { ssr: false });
 const ContactModal = dynamic(() => import('@/components/ui/ContactModal'), { ssr: false });
 
 export default function ArtistPageClient({ artist, reviews, services }: { artist: Artist; reviews: Review[]; services: Service[] }) {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  // Loading states
+  const isServicesLoading = services.length === 0;
+  const isReviewsLoading = reviews.length === 0;
+  const skeletonCount = 3; // Show 3 skeleton cards for services/reviews
+
   // Set up the dynamic theme styles with fallbacks
   const themeStyles = {
     '--bg-color': artist.fields.ThemeBackgroundColor || '#0E0E0E',
@@ -254,7 +260,11 @@ export default function ArtistPageClient({ artist, reviews, services }: { artist
                       transition={{ duration: 0.8, delay: 0.6 }}
                       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6"
                     >
-                      {services && services.length > 0 ? (
+                      {isServicesLoading ? (
+                        Array.from({ length: skeletonCount }).map((_, index) => (
+                          <ServiceCardSkeleton key={index} />
+                        ))
+                      ) : services && services.length > 0 ? (
                         services.map((service, idx) => (
                           <motion.div
                             key={service.id}
@@ -395,25 +405,31 @@ export default function ArtistPageClient({ artist, reviews, services }: { artist
                         transition={{ duration: 0.8, delay: 0.6 }}
                         className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6"
                       >
-                        {reviews.map((review, index) => (
-                          <motion.div
-                            key={review.id}
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ 
-                              duration: 0.6, 
-                              delay: 0.7 + (index * 0.1),
-                              ease: [0.25, 0.46, 0.45, 0.94]
-                            }}
-                          >
-                            <ReviewCard
-                              review={review}
-                              themePrimaryColor={artist.fields.ThemePrimaryColor}
-                              themeBackgroundColor={artist.fields.ThemeBackgroundColor}
-                              themeTextColor={artist.fields.ThemeTextColor}
-                            />
-                          </motion.div>
-                        ))}
+                        {isReviewsLoading ? (
+                          Array.from({ length: skeletonCount }).map((_, index) => (
+                            <ReviewCardSkeleton key={index} />
+                          ))
+                        ) : (
+                          reviews.map((review, index) => (
+                            <motion.div
+                              key={review.id}
+                              initial={{ opacity: 0, y: 30 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ 
+                                duration: 0.6, 
+                                delay: 0.7 + (index * 0.1),
+                                ease: [0.25, 0.46, 0.45, 0.94]
+                              }}
+                            >
+                              <ReviewCard
+                                review={review}
+                                themePrimaryColor={artist.fields.ThemePrimaryColor}
+                                themeBackgroundColor={artist.fields.ThemeBackgroundColor}
+                                themeTextColor={artist.fields.ThemeTextColor}
+                              />
+                            </motion.div>
+                          ))
+                        )}
                       </motion.div>
                     </div>
                   </motion.section>

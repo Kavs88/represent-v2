@@ -12,6 +12,7 @@ import { Artist } from '@/types/artist';
 import { Attachment } from '@/types/artist';
 import ArtistTicker from '@/components/home/ArtistTicker';
 import { Container, responsiveClasses } from '@/components/ui/Container';
+import { ArtistCardSkeleton } from '@/components/ui/Skeleton';
 
 interface HomePageClientProps {
   featuredArtists: Artist[];
@@ -38,6 +39,10 @@ export default function HomePageClient({ featuredArtists, artworks }: HomePageCl
       role: 'Curator',
     },
   ];
+
+  // Show skeletons while loading
+  const isLoading = featuredArtists.length === 0;
+  const skeletonCount = 4; // Show 4 skeleton cards
 
   return (
     <div className="bg-[#0e0e0e] text-white font-sans overflow-x-hidden">
@@ -99,11 +104,21 @@ export default function HomePageClient({ featuredArtists, artworks }: HomePageCl
             </RevealOnScroll>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 w-full">
-            {featuredArtists.map((artist) => (
-              <div key={artist.id} className="w-full flex justify-center">
-                <ArtistCard artist={artist} themeColor={artist.fields.ThemePrimaryColor} />
-              </div>
-            ))}
+            {isLoading ? (
+              // Show skeleton loading states
+              Array.from({ length: skeletonCount }).map((_, index) => (
+                <div key={`skeleton-${index}`} className="w-full flex justify-center">
+                  <ArtistCardSkeleton />
+                </div>
+              ))
+            ) : (
+              // Show actual artist cards
+              featuredArtists.map((artist) => (
+                <div key={artist.id} className="w-full flex justify-center">
+                  <ArtistCard artist={artist} themeColor={artist.fields.ThemePrimaryColor} />
+                </div>
+              ))
+            )}
           </div>
         </div>
       </section>
