@@ -451,7 +451,7 @@ export const getArtistFeaturedServices = async (artistId: string): Promise<Servi
     // Try different field names for the artist relationship
     const possibleArtistFields = ["Artist ID", "Artist", "Artist Name", "ArtistID"];
     let artistFieldName = null;
-    let filteredRecords = [];
+    let filteredRecords: any[] = [];
     
     for (const fieldName of possibleArtistFields) {
       const testFilter = allRecords.filter(record => {
