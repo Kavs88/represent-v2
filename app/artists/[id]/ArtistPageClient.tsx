@@ -261,7 +261,7 @@ export default function ArtistPageClient({ artist, reviews, services }: { artist
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.7 + idx * 0.1 }}
-                            className="bg-white/5 backdrop-blur-sm rounded-lg sm:rounded-xl overflow-hidden border hover:transform hover:scale-105 transition-all duration-300 flex flex-col"
+                            className="bg-white/10 backdrop-blur-md rounded-xl overflow-hidden border border-border shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 flex flex-col"
                             style={{
                               borderColor: artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}30` : 'rgba(0, 255, 157, 0.3)'
                             }}
@@ -272,23 +272,23 @@ export default function ArtistPageClient({ artist, reviews, services }: { artist
                                   src={service.fields["Image URL"]}
                                   alt={service.fields.Name}
                                   fill
-                                  className="object-cover rounded-t-lg sm:rounded-t-xl"
+                                  className="object-cover rounded-t-xl"
                                 />
                               </div>
                             )}
-                            <div className="p-3 sm:p-4 lg:p-6 flex-1 flex flex-col">
-                              <h3 className="text-sm sm:text-base lg:text-lg font-bold text-foreground mb-1 sm:mb-2">{service.fields.Name}</h3>
+                            <div className="p-4 sm:p-6 flex-1 flex flex-col gap-2">
+                              <h3 className="text-base sm:text-lg font-bold text-foreground mb-1" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>{service.fields.Name}</h3>
                               {service.fields.Description && (
-                                <p className="text-xs sm:text-sm lg:text-base mb-2" style={{ color: artist.fields.ThemeTextColor ? `${artist.fields.ThemeTextColor}b0` : '#bbbbbb' }}>{service.fields.Description}</p>
+                                <p className="text-xs sm:text-sm text-muted-foreground mb-2">{service.fields.Description}</p>
                               )}
-                              <div className="mt-auto flex flex-col gap-1">
+                              <div className="mt-auto flex flex-col gap-2">
                                 {service.fields["Price Range"] && (
-                                  <span className="text-xs sm:text-sm font-bold" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>
+                                  <span className="text-sm font-semibold" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>
                                     {service.fields["Price Range"]}
                                   </span>
                                 )}
                                 {service.fields.Category && (
-                                  <span className="text-xs font-medium text-muted-foreground bg-muted/20 rounded px-2 py-1 w-fit">
+                                  <span className="text-xs font-medium text-muted-foreground bg-muted/30 rounded px-2 py-1 w-fit">
                                     {service.fields.Category}
                                   </span>
                                 )}
