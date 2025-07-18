@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Logo } from "../ui/Logo";
 import LinkWithCursor from '../ui/LinkWithCursor';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
   { href: "/artists", label: "The Roster" },
@@ -12,6 +13,8 @@ const navLinks = [
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+  const isArtistProfile = /^\/artists\/[\w-]+$/.test(pathname);
 
   useEffect(() => {
     const onScroll = () => {
@@ -66,9 +69,31 @@ export default function Header() {
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20 sm:h-24 lg:h-28">
-            {/* Logo */}
-            <div className="flex-shrink-0 flex items-center">
-        <Logo />
+            {/* Logo + Back to Roster */}
+            <div className="flex-shrink-0 flex flex-col items-start">
+              <div className="flex items-center">
+                <Logo />
+                {/* Desktop: Back to Roster inline */}
+                {isArtistProfile && (
+                  <LinkWithCursor
+                    href="/artists"
+                    className="hidden lg:inline-flex ml-4 px-4 py-2.5 rounded-full font-bold text-base bg-[#17624A] text-white transition-all duration-200 hover:scale-105 hover:shadow-lg min-h-[44px] items-center"
+                  >
+                    <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                    Back to Roster
+                  </LinkWithCursor>
+                )}
+              </div>
+              {/* Mobile: Back to Roster stacked */}
+              {isArtistProfile && (
+                <LinkWithCursor
+                  href="/artists"
+                  className="lg:hidden mt-2 px-4 py-2.5 rounded-full font-bold text-base bg-[#17624A] text-white transition-all duration-200 hover:scale-105 hover:shadow-lg min-h-[44px] inline-flex items-center"
+                >
+                  <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                  Back to Roster
+                </LinkWithCursor>
+              )}
             </div>
 
             {/* Desktop Navigation */}

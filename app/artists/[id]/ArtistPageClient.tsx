@@ -10,11 +10,15 @@ import { useState } from "react";
 import ReactMarkdown from 'react-markdown';
 import PlatformContactButtons from "@/components/ui/PlatformContactButtons";
 import { ServiceCardSkeleton, ReviewCardSkeleton } from "@/components/ui/Skeleton";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const ArtworkCarousel = dynamic(() => import('@/components/artists/ArtworkCarousel').then(mod => mod.ArtworkCarousel), { ssr: false });
 const ContactModal = dynamic(() => import('@/components/ui/ContactModal'), { ssr: false });
 
 export default function ArtistPageClient({ artist, reviews, services }: { artist: Artist; reviews: Review[]; services: Service[] }) {
+  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+  const activeTag = searchParams ? searchParams.get('tag') : null;
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   // Loading states
   const isServicesLoading = services.length === 0;
@@ -139,6 +143,25 @@ export default function ArtistPageClient({ artist, reviews, services }: { artist
                     }}>
                       Professional Artist
                     </span>
+                    {artist.fields.Tags && artist.fields.Tags.length > 0 && (
+                      artist.fields.Tags.map((tag) => {
+                        const isActive = activeTag === tag;
+                        return (
+                          <Link
+                            key={tag}
+                            href={`/artists?tag=${encodeURIComponent(tag)}`}
+                            className={`px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 lg:py-3 rounded-full text-xs sm:text-sm lg:text-base font-semibold border transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary ${isActive ? 'bg-[#17624A] text-white border-transparent' : 'bg-primary/10 text-primary border-primary/20 hover:bg-primary hover:text-black'}`}
+                            style={{
+                              marginTop: '0.25rem',
+                              marginBottom: '0.25rem',
+                            }}
+                            aria-label={`View all artists tagged with ${tag}`}
+                          >
+                            #{tag}
+                          </Link>
+                        );
+                      })
+                    )}
                   </motion.div>
                   
                   <motion.button
