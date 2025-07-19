@@ -4,7 +4,7 @@ import Image from "next/image";
 import dynamic from 'next/dynamic';
 import ReviewCard from "@/components/artists/ReviewCard";
 import { Artist, Review } from "@/types/artist";
-import { Service } from "@/lib/airtable";
+import { Service, QuickFact } from "@/lib/airtable";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import ReactMarkdown from 'react-markdown';
@@ -18,7 +18,7 @@ import QuickFacts from "@/components/artists/QuickFacts";
 const ArtworkCarousel = dynamic(() => import('@/components/artists/ArtworkCarousel').then(mod => mod.ArtworkCarousel), { ssr: false });
 const ContactModal = dynamic(() => import('@/components/ui/ContactModal'), { ssr: false });
 
-export default function ArtistPageClient({ artist, reviews, services }: { artist: Artist; reviews: Review[]; services: Service[] }) {
+export default function ArtistPageClient({ artist, reviews, services, quickFacts }: { artist: Artist; reviews: Review[]; services: Service[]; quickFacts: QuickFact[] }) {
   const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
   const activeTag = searchParams ? searchParams.get('tag') : null;
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -152,14 +152,17 @@ export default function ArtistPageClient({ artist, reviews, services }: { artist
                           <Link
                             key={tag}
                             href={`/artists?tag=${encodeURIComponent(tag)}`}
-                            className={`px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 lg:py-3 rounded-full text-xs sm:text-sm lg:text-base font-semibold border transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary ${isActive ? 'bg-[#17624A] text-white border-transparent' : 'bg-primary/10 text-primary border-primary/20 hover:bg-primary hover:text-black'}`}
+                            className={`px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 lg:py-3 rounded-full text-xs sm:text-sm lg:text-base font-semibold border transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary ${isActive ? 'bg-[#17624A] text-white border-transparent shadow-lg' : 'bg-primary/10 text-primary border-primary/20 hover:scale-105 hover:shadow-md'}`}
                             style={{
                               marginTop: '0.25rem',
                               marginBottom: '0.25rem',
                             }}
                             aria-label={`View all artists tagged with ${tag}`}
                           >
-                            #{tag}
+                            <span className="flex items-center gap-1">
+                              <span className="text-xs opacity-60">#</span>
+                              {tag}
+                            </span>
                           </Link>
                         );
                       })
@@ -220,6 +223,7 @@ export default function ArtistPageClient({ artist, reviews, services }: { artist
                   </div>
                   <QuickFacts 
                     artist={artist} 
+                    quickFacts={quickFacts}
                     themeColor={artist.fields.ThemePrimaryColor} 
                     textColor={artist.fields.ThemeTextColor}
                   />

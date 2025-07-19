@@ -7,8 +7,31 @@ interface ServiceBadgeProps {
   textColor?: string;
 }
 
-// Icon mapping for different service categories
-const getServiceIcon = (category: string, name: string) => {
+// Icon mapping for different service categories and custom icons
+const getServiceIcon = (category: string, name: string, customIcon?: string) => {
+  // If there's a custom icon from Airtable, use it
+  if (customIcon) {
+    return (
+      <div className="relative">
+        <img 
+          src={customIcon} 
+          alt="" 
+          className="w-4 h-4 object-contain"
+          onError={(e) => {
+            // Fallback to default icon if custom icon fails to load
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+            const fallback = target.nextElementSibling as HTMLElement;
+            if (fallback) fallback.style.display = 'block';
+          }}
+        />
+        {/* Fallback icon (hidden by default) */}
+        <svg className="w-4 h-4 hidden" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+        </svg>
+      </div>
+    );
+  }
   const lowerCategory = category?.toLowerCase() || '';
   const lowerName = name?.toLowerCase() || '';
   
@@ -84,7 +107,7 @@ export default function ServiceBadge({ service, themeColor = '#00ff9d', textColo
         borderColor: `${themeColor}40`,
       }}
     >
-      {getServiceIcon(service.fields.Category || '', service.fields.Name)}
+      {getServiceIcon(service.fields.Category || '', service.fields.Name, service.fields["Image URL"])}
       <span className="font-semibold">{service.fields.Name}</span>
       {service.fields["Price Range"] && (
         <span className="text-xs opacity-75 ml-1">

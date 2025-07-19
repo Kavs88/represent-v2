@@ -104,6 +104,21 @@ export const serviceSchema = z.object({
 
 export type Service = z.infer<typeof serviceSchema>;
 
+// QuickFacts schema
+export const quickFactsSchema = z.object({
+  id: z.string(),
+  fields: z.object({
+    "Artist ID": z.array(z.string()),
+    "Fact Type": z.string(),
+    "Fact Value": z.string(),
+    "Icon": z.string().optional(),
+    "Order": z.number().optional(),
+    "Featured": z.boolean().optional(),
+  }),
+});
+
+export type QuickFact = z.infer<typeof quickFactsSchema>;
+
 // ==================================
 // AIRTABLE CONFIG & FUNCTIONS
 // ==================================
@@ -114,6 +129,7 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
 const table = base("Artists");
 const reviewsTable = base("Reviews");
 const servicesTable = base("Services");
+const quickFactsTable = base("QuickFacts");
 
 // ==================================
 // Internal Record Processor (The Guard)
@@ -495,6 +511,89 @@ export const getArtistFeaturedServices = async (artistId: string): Promise<Servi
     return services;
   } catch (error) {
     console.error('Airtable API error in getArtistFeaturedServices:', error);
+    return [];
+  }
+};
+
+/**
+ * Fetches quick facts for a specific artist.
+ * Returns facts ordered by the Order field, then by creation date.
+ * Now includes caching for better performance.
+ */
+export const getArtistQuickFacts = async (artistId: string): Promise<QuickFact[]> => {
+  try {
+    const cacheKey = `quickfacts_${artistId}`;
+    const cached = getCachedData(cacheKey);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    await throttleRequest();
+    
+    console.log(`Fetching quick facts for artist ID: ${artistId}`);
+    
+    // Fetch all quick facts from Airtable
+    const allQuickFactsQuery = quickFactsTable.select();
+    const allRecords = await allQuickFactsQuery.all();
+    console.log(`Found ${allRecords.length} total quick facts`);
+    
+    // Log the first record to see all available field names
+    if (allRecords.length > 0) {
+      console.log('Available fields in QuickFacts table:', Object.keys(allRecords[0].fields));
+      console.log('Sample quick fact record fields:', allRecords[0].fields);
+    }
+    
+    // Log each quick fact record to see what we have
+    allRecords.forEach((record, index) => {
+      console.log(`Quick Fact ${index + 1}:`, {
+        id: record.id,
+        artistId: record.get("Artist ID"),
+        factType: record.get("Fact Type"),
+        factValue: record.get("Fact Value"),
+        icon: record.get("Icon"),
+        order: record.get("Order"),
+        featured: record.get("Featured")
+      });
+    });
+    
+    // Filter quick facts that match the artist ID
+    const filteredRecords = allRecords.filter(record => {
+      const artistField = record.get("Artist ID");
+      console.log(`Quick Fact ${record.id} artist field:`, artistField);
+      return artistField && Array.isArray(artistField) && artistField.includes(artistId);
+    });
+    
+    console.log(`Filtered to ${filteredRecords.length} quick facts for artist ${artistId}`);
+    
+    // Map to QuickFact type
+    const quickFacts: QuickFact[] = filteredRecords.map(record => {
+      return {
+        id: record.id,
+        fields: {
+          "Artist ID": record.get("Artist ID") as string[] || [],
+          "Fact Type": record.get("Fact Type") as string || "",
+          "Fact Value": record.get("Fact Value") as string || "",
+          "Icon": record.get("Icon") as string || "",
+          "Order": record.get("Order") as number || 0,
+          "Featured": record.get("Featured") as boolean || false,
+        }
+      };
+    });
+    
+    // Sort by Order field, then by creation date
+    quickFacts.sort((a, b) => {
+      if (a.fields.Order !== b.fields.Order) {
+        return (a.fields.Order || 0) - (b.fields.Order || 0);
+      }
+      return 0; // If Order is the same, maintain original order
+    });
+    
+    console.log(`Returning ${quickFacts.length} quick facts for artist ${artistId}:`, quickFacts);
+    setCachedData(cacheKey, quickFacts);
+    return quickFacts;
+  } catch (error) {
+    console.error('Airtable API error in getArtistQuickFacts:', error);
     return [];
   }
 };
