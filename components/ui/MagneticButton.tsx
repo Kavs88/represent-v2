@@ -33,7 +33,7 @@ export function MagneticButton({ children, className = '', href }: MagneticButto
 
   const buttonContent = (
     <div
-      className={`relative z-10 px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:scale-105 transition-transform duration-200 ${className}`}
+      className={`relative z-10 px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:scale-105 transition-transform duration-200 cursor-pointer ${className}`}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -56,7 +56,7 @@ export function MagneticButton({ children, className = '', href }: MagneticButto
       ) : (
         <button
           type="button"
-          className={`relative z-10 px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:scale-105 transition-transform duration-200 ${className}`}
+          className={`relative z-10 px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:scale-105 transition-transform duration-200 cursor-pointer ${className}`}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >

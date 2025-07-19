@@ -7,7 +7,19 @@
   --border: 40 40 40;
 }
 
-html { cursor: none; }
+html { 
+  cursor: none; 
+}
+
+/* Ensure hover states work properly even with custom cursor */
+* {
+  cursor: none;
+}
+
+/* But allow default cursor for form elements and links for better UX */
+button, a, input, textarea, select {
+  cursor: pointer;
+}
 
 /* Mobile-specific improvements */
 @media (max-width: 374px) {

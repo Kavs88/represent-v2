@@ -77,7 +77,7 @@ export default function ServiceBadge({ service, themeColor = '#00ff9d', textColo
       animate={{ opacity: 1, scale: 1 }}
       whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.2 }}
-      className="inline-flex items-center gap-2 px-4 py-3 rounded-full font-medium text-sm border transition-all duration-200 hover:shadow-lg"
+      className="inline-flex items-center gap-2 px-4 py-3 rounded-full font-medium text-sm border transition-all duration-200 hover:shadow-lg cursor-pointer"
       style={{
         backgroundColor: `${themeColor}15`,
         color: textColor,

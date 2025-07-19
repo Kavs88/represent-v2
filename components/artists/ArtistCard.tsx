@@ -29,7 +29,7 @@ export function ArtistCard({ artist, themeColor, forceTwoLineName = false }: { a
   return (
     <Link
       href={`/artists/${artist.id}`}
-      className="group block rounded-xl border border-border shadow-lg overflow-hidden w-full max-w-xs min-h-[400px] flex-1 flex flex-col justify-between bg-card transition-all duration-300 hover:shadow-2xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2 focus:ring-offset-background px-6 py-6 h-full"
+      className="group block rounded-xl border border-border shadow-lg overflow-hidden w-full max-w-xs min-h-[400px] flex-1 flex flex-col justify-between bg-card transition-all duration-300 hover:shadow-2xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2 focus:ring-offset-background px-6 py-6 h-full cursor-pointer"
       style={{ 
         background: artist.fields.ThemePrimaryColor || themeColor || 'var(--card, #18181b)',
         boxShadow: `0 4px 6px -1px ${shadowColor}, 0 2px 4px -1px ${shadowColor}`
