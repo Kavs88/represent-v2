@@ -12,6 +12,8 @@ import PlatformContactButtons from "@/components/ui/PlatformContactButtons";
 import { ServiceCardSkeleton, ReviewCardSkeleton } from "@/components/ui/Skeleton";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import ServiceBadge from "@/components/artists/ServiceBadge";
+import QuickFacts from "@/components/artists/QuickFacts";
 
 const ArtworkCarousel = dynamic(() => import('@/components/artists/ArtworkCarousel').then(mod => mod.ArtworkCarousel), { ssr: false });
 const ContactModal = dynamic(() => import('@/components/ui/ContactModal'), { ssr: false });
@@ -207,6 +209,22 @@ export default function ArtistPageClient({ artist, reviews, services }: { artist
                   </div>
                 </section>
                 
+                {/* Quick Facts Section */}
+                <section className="backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 lg:mb-12" style={{
+                  backgroundColor: artist.fields.ThemeBackgroundColor ? `${artist.fields.ThemeBackgroundColor}20` : 'rgba(26, 26, 26, 0.5)',
+                  border: `1px solid ${artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}30` : 'rgba(64, 64, 64, 0.5)'}`
+                }}>
+                  <div className="text-center mb-6 sm:mb-8">
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold mb-2 sm:mb-3 break-words" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>Quick Facts</h2>
+                    <p className="text-sm sm:text-base lg:text-lg break-words" style={{ color: artist.fields.ThemeTextColor ? `${artist.fields.ThemeTextColor}80` : '#888888' }}>Key information about {artist.fields.Name}</p>
+                  </div>
+                  <QuickFacts 
+                    artist={artist} 
+                    themeColor={artist.fields.ThemePrimaryColor} 
+                    textColor={artist.fields.ThemeTextColor}
+                  />
+                </section>
+                
                 {/* Artwork Gallery */}
                 {artist.fields.Artwork && artist.fields.Artwork.length > 0 && (
                   <section className="backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8" style={{
@@ -281,56 +299,29 @@ export default function ArtistPageClient({ artist, reviews, services }: { artist
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.8, delay: 0.6 }}
-                      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6"
+                      className="flex flex-wrap gap-3 sm:gap-4 justify-center"
                     >
                       {isServicesLoading ? (
                         Array.from({ length: skeletonCount }).map((_, index) => (
-                          <ServiceCardSkeleton key={index} />
+                          <div key={index} className="w-48 h-16 bg-gray-700/20 rounded-full animate-pulse" />
                         ))
                       ) : services && services.length > 0 ? (
                         services.map((service, idx) => (
                           <motion.div
                             key={service.id}
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.6, delay: 0.7 + idx * 0.1 }}
-                            className="bg-white/10 backdrop-blur-md rounded-xl overflow-hidden border border-border shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 flex flex-col"
-                            style={{
-                              borderColor: artist.fields.ThemePrimaryColor ? `${artist.fields.ThemePrimaryColor}30` : 'rgba(0, 255, 157, 0.3)'
-                            }}
                           >
-                            {service.fields["Image URL"] && (
-                              <div className="relative w-full h-32 sm:h-36 lg:h-40 bg-black/10">
-                                <Image
-                                  src={service.fields["Image URL"]}
-                                  alt={service.fields.Name}
-                                  fill
-                                  className="object-cover rounded-t-xl"
-                                />
-                              </div>
-                            )}
-                            <div className="p-4 sm:p-6 flex-1 flex flex-col gap-2">
-                              <h3 className="text-base sm:text-lg font-bold text-foreground mb-1" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>{service.fields.Name}</h3>
-                              {service.fields.Description && (
-                                <p className="text-xs sm:text-sm text-muted-foreground mb-2">{service.fields.Description}</p>
-                              )}
-                              <div className="mt-auto flex flex-col gap-2">
-                                {service.fields["Price Range"] && (
-                                  <span className="text-sm font-semibold" style={{ color: artist.fields.ThemePrimaryColor || '#00ff9d' }}>
-                                    {service.fields["Price Range"]}
-                                  </span>
-                                )}
-                                {service.fields.Category && (
-                                  <span className="text-xs font-medium text-muted-foreground bg-muted/30 rounded px-2 py-1 w-fit">
-                                    {service.fields.Category}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
+                            <ServiceBadge 
+                              service={service}
+                              themeColor={artist.fields.ThemePrimaryColor}
+                              textColor={artist.fields.ThemeTextColor}
+                            />
                           </motion.div>
                         ))
                       ) : (
-                        <div className="col-span-full text-center py-6 sm:py-8 text-muted text-sm sm:text-base lg:text-lg">
+                        <div className="text-center py-6 sm:py-8 text-muted text-sm sm:text-base lg:text-lg">
                           No services are currently listed for this artist.
                         </div>
                       )}

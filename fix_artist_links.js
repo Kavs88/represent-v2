@@ -46,4 +46,24 @@ async function fixArtistLinks() {
         console.log(`Service "${serviceName}" links to unknown artist ID: ${artistId}`);
         continue;
       }
-      //
+      // Check if the correct artist ID for this name is different
+      if (nameToId[artistName] && nameToId[artistName] !== artistId) {
+        console.log(`Service "${serviceName}" is linked to artist "${artistName}" with wrong ID (${artistId}), should be ${nameToId[artistName]}. Fixing...`);
+        await base('Services').update(service.id, {
+          'Artist ID': [nameToId[artistName]]
+        });
+        fixedCount++;
+      }
+    }
+  }
+
+  if (fixedCount === 0) {
+    console.log('No broken links found or all links are already correct!');
+  } else {
+    console.log(`Fixed ${fixedCount} service(s).`);
+  }
+}
+
+fixArtistLinks().catch((err) => {
+  console.error('Script error:', err);
+});

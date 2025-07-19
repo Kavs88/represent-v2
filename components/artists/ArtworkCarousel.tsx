@@ -67,12 +67,22 @@ export function ArtworkCarousel({ artworks, themeColor }: { artworks: Attachment
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
                   priority={idx === 0}
                 />
-                {/* Artwork Info Overlay */}
-                <div className="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-sm rounded-xl p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h3 className="text-white font-semibold text-lg">
-                    {artwork.filename || `Artwork ${idx + 1}`}
-                  </h3>
-                  <p className="text-white/80 text-sm">Click to view full size</p>
+                {/* Enhanced Artwork Info Overlay */}
+                <div className="absolute bottom-4 left-4 right-4 bg-black/70 backdrop-blur-md rounded-xl p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-white font-bold text-lg">
+                      {artwork.filename?.replace(/\.[^/.]+$/, '') || `Artwork ${idx + 1}`}
+                    </h3>
+                    <span className="text-white/60 text-sm font-medium">
+                      {idx + 1} of {artworks.length}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white/80 text-sm">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span>Click to view full size</span>
+                  </div>
                 </div>
               </motion.div>
             ))}
