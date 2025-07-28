@@ -41,6 +41,26 @@ const throttleRequest = async () => {
   lastRequestTime = Date.now();
 };
 
+// Enhanced error handling with retries
+const fetchWithRetry = async (fetchFn: () => Promise<any>, maxRetries = 3) => {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await fetchFn();
+    } catch (error: any) {
+      console.warn(`Airtable API attempt ${attempt} failed:`, error.message);
+      
+      if (attempt === maxRetries) {
+        throw error;
+      }
+      
+      // Exponential backoff
+      await new Promise(resolve => 
+        setTimeout(resolve, Math.pow(2, attempt) * 1000)
+      );
+    }
+  }
+};
+
 // ==================================
 // SCHEMAS & TYPES ARE NOW DEFINED HERE
 // ==================================
@@ -167,26 +187,28 @@ export const getArtists = async (options: { featuredOnly?: boolean } = {}): Prom
     
     await throttleRequest();
     
-    const query = table.select({
-      fields: [
-        "Name",
-        "Speciality",
-        "Bio",
-        "ProfileImage",
-        "Artwork",
-        "SocialLinks",
-        "Tags",
-        "Featured",
-        "GeneratedBannerImage",
-        "ThemePrimaryColor",
-        "ThemeBackgroundColor",
-        "ThemeTextColor"
-      ],
-      sort: [{ field: "Name", direction: "asc" }],
-      filterByFormula: options.featuredOnly ? "{Featured} = 1" : "",
+    const records = await fetchWithRetry(async () => {
+      const query = table.select({
+        fields: [
+          "Name",
+          "Speciality",
+          "Bio",
+          "ProfileImage",
+          "Artwork",
+          "SocialLinks",
+          "Tags",
+          "Featured",
+          "GeneratedBannerImage",
+          "ThemePrimaryColor",
+          "ThemeBackgroundColor",
+          "ThemeTextColor"
+        ],
+        sort: [{ field: "Name", direction: "asc" }],
+        filterByFormula: options.featuredOnly ? "{Featured} = 1" : "",
+      });
+      
+      return await query.all();
     });
-    
-    const records = await query.all();
     let processed = processRecords([...records]);
     
     // For featured artists, shuffle the results to make selection more random
@@ -238,25 +260,27 @@ export const getArtistById = async (id: string): Promise<Artist | null> => {
     
     await throttleRequest();
     
-    const query = table.select({
-      fields: [
-        "Name",
-        "Speciality",
-        "Bio",
-        "ProfileImage",
-        "Artwork",
-        "SocialLinks",
-        "Tags",
-        "Featured",
-        "GeneratedBannerImage",
-        "ThemePrimaryColor",
-        "ThemeBackgroundColor",
-        "ThemeTextColor"
-      ],
-      filterByFormula: `RECORD_ID() = '${id}'`,
-      maxRecords: 1,
+    const records = await fetchWithRetry(async () => {
+      const query = table.select({
+        fields: [
+          "Name",
+          "Speciality",
+          "Bio",
+          "ProfileImage",
+          "Artwork",
+          "SocialLinks",
+          "Tags",
+          "Featured",
+          "GeneratedBannerImage",
+          "ThemePrimaryColor",
+          "ThemeBackgroundColor",
+          "ThemeTextColor"
+        ],
+        filterByFormula: `RECORD_ID() = '${id}'`,
+        maxRecords: 1,
+      });
+      return await query.all();
     });
-    const records = await query.all();
     if (records.length === 0) return null;
     const processed = processRecords([...records]);
     const result = processed[0] || null;

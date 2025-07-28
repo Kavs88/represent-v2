@@ -1,8 +1,107 @@
-// lib/fallbackData.ts
-import { Artist, Attachment } from '@/types/artist';
+// lib/fallbackData.ts - Fallback data for when Airtable is unavailable
 
-// Sample artwork images using working URLs
-const sampleArtworks: Attachment[] = [
+import { Artist, Review, Service, QuickFact } from './airtable';
+
+export const fallbackArtists: Artist[] = [
+  {
+    id: 'recGdQ0i5a8m3Rdr3',
+    fields: {
+      Name: 'Sophie Trịnh',
+      Speciality: 'Painter & Photographer',
+      Bio: 'Sophie is a talented artist specializing in contemporary portraiture and photography. Her work captures the essence of human emotion through vibrant colors and thoughtful composition.',
+      ProfileImage: [],
+      Artwork: [],
+      SocialLinks: 'https://instagram.com/sophietrinh',
+      Tags: ['Portrait', 'Photography', 'Contemporary'],
+      Featured: true,
+      GeneratedBannerImage: [],
+      ThemePrimaryColor: '#3B82F6',
+      ThemeBackgroundColor: '#F8FAFC',
+      ThemeTextColor: '#1F2937'
+    }
+  },
+  {
+    id: 'recPPhHTA5rR4hmcD',
+    fields: {
+      Name: 'Ptolomy',
+      Speciality: 'Digital Artist',
+      Bio: 'Ptolomy creates stunning digital artwork that pushes the boundaries of imagination. Specializing in surreal landscapes and character design.',
+      ProfileImage: [],
+      Artwork: [],
+      SocialLinks: 'https://twitter.com/ptolomy_art',
+      Tags: ['Digital Art', 'Surreal', 'Character Design'],
+      Featured: true,
+      GeneratedBannerImage: [],
+      ThemePrimaryColor: '#8B5CF6',
+      ThemeBackgroundColor: '#FDF4FF',
+      ThemeTextColor: '#1F2937'
+    }
+  }
+];
+
+export const getFallbackArtist = (id: string): Artist | null => {
+  return fallbackArtists.find(artist => artist.id === id) || null;
+};
+
+export const fallbackReviews: Review[] = [
+  {
+    id: 'reciIInrYMtQfT8OQ',
+    fields: {
+      Artist: ['recGdQ0i5a8m3Rdr3'],
+      'Review Text': 'Sophie is the most gifted artist I have met in some time, breathtaking.',
+      'Client Name': 'Keith Farrell',
+      'Project Type': 'Commissioned Portrait',
+      Date: '2025-07-08',
+      Featured: true,
+      Approved: true
+    }
+  }
+];
+
+export const fallbackServices: Service[] = [
+  {
+    id: 'rec13MF6BuYVWVu5D',
+    fields: {
+      Name: 'Custom Portrait',
+      Description: 'Hand-drawn portraits from photos',
+      'Price Range': '0150-01-01 00:00',
+      Category: 'Portraits',
+      'Artist ID': ['recGdQ0i5a8m3Rdr3'],
+      Featured: true,
+      'Image URL': 'https://picsum.photos/seed/portrait1/400/300'
+    }
+  }
+];
+
+export const fallbackQuickFacts: QuickFact[] = [
+  {
+    id: 'rec1',
+    fields: {
+      'Artist ID': ['recGdQ0i5a8m3Rdr3'],
+      'Fact Type': 'Experience',
+      'Fact Value': '5+ years',
+      'Icon': '🎨',
+      'Order': 1,
+      'Featured': true
+    }
+  },
+  {
+    id: 'rec2',
+    fields: {
+      'Artist ID': ['recGdQ0i5a8m3Rdr3'],
+      'Fact Type': 'Specialty',
+      'Fact Value': 'Portrait Painting',
+      'Icon': '👤',
+      'Order': 2,
+      'Featured': true
+    }
+  }
+];
+
+// Add the missing exports for the homepage
+export const fallbackFeaturedArtists: Artist[] = fallbackArtists;
+
+export const fallbackArtworks = [
   {
     id: "art1",
     url: "https://picsum.photos/seed/artwork1/800/600",
@@ -23,127 +122,5 @@ const sampleArtworks: Attachment[] = [
     filename: "Contemporary Art",
     size: 1024,
     type: "image/jpeg"
-  },
-  {
-    id: "art4",
-    url: "https://picsum.photos/seed/artwork4/800/600",
-    filename: "Digital Artwork",
-    size: 1024,
-    type: "image/jpeg"
-  },
-  {
-    id: "art5",
-    url: "https://picsum.photos/seed/artwork5/800/600",
-    filename: "Mixed Media",
-    size: 1024,
-    type: "image/jpeg"
-  },
-  {
-    id: "art6",
-    url: "https://picsum.photos/seed/artwork6/800/600",
-    filename: "Abstract Expressionism",
-    size: 1024,
-    type: "image/jpeg"
-  }
-];
-
-// Sample featured artists with artwork
-export const fallbackFeaturedArtists: Artist[] = [
-  {
-    id: "artist1",
-    fields: {
-      Name: "Sarah Chen",
-      Speciality: "Contemporary Abstract",
-      Bio: "Pioneering contemporary artist known for bold color palettes and dynamic compositions that challenge traditional boundaries.",
-      ProfileImage: [{
-        id: "profile1",
-        url: "https://picsum.photos/seed/sarahchen/400/400",
-        filename: "Sarah Chen",
-        size: 1024,
-        type: "image/jpeg"
-      }],
-      Artwork: [sampleArtworks[0], sampleArtworks[1]],
-      SocialLinks: "https://instagram.com/sarahchen",
-      Tags: ["contemporary", "abstract", "colorful"],
-      Featured: true,
-      ThemePrimaryColor: "#17624A",
-      ThemeBackgroundColor: "#0f2027",
-      ThemeTextColor: "#ffffff"
-    }
-  },
-  {
-    id: "artist2", 
-    fields: {
-      Name: "Marcus Rodriguez",
-      Speciality: "Digital Sculpture",
-      Bio: "Innovative digital sculptor creating immersive 3D experiences that bridge the gap between physical and virtual art.",
-      ProfileImage: [{
-        id: "profile2",
-        url: "https://picsum.photos/seed/marcusrodriguez/400/400",
-        filename: "Marcus Rodriguez",
-        size: 1024,
-        type: "image/jpeg"
-      }],
-      Artwork: [sampleArtworks[2], sampleArtworks[3]],
-      SocialLinks: "https://instagram.com/marcusrodriguez",
-      Tags: ["digital", "sculpture", "3D"],
-      Featured: true,
-      ThemePrimaryColor: "#17624A",
-      ThemeBackgroundColor: "#0f2027", 
-      ThemeTextColor: "#ffffff"
-    }
-  },
-  {
-    id: "artist3",
-    fields: {
-      Name: "Elena Petrov",
-      Speciality: "Mixed Media",
-      Bio: "Experimental artist combining traditional techniques with modern technology to create thought-provoking installations.",
-      ProfileImage: [{
-        id: "profile3", 
-        url: "https://picsum.photos/seed/elenapetrov/400/400",
-        filename: "Elena Petrov",
-        size: 1024,
-        type: "image/jpeg"
-      }],
-      Artwork: [sampleArtworks[4], sampleArtworks[5]],
-      SocialLinks: "https://instagram.com/elenapetrov",
-      Tags: ["mixed-media", "experimental", "installation"],
-      Featured: true,
-      ThemePrimaryColor: "#17624A",
-      ThemeBackgroundColor: "#0f2027",
-      ThemeTextColor: "#ffffff"
-    }
-  }
-];
-
-// All sample artworks for the carousel
-export const fallbackArtworks: Attachment[] = sampleArtworks;
-
-// Sample articles for the Articles section
-export const fallbackArticles = [
-  {
-    id: "article1",
-    title: "The Future of Digital Art",
-    excerpt: "Exploring how technology is reshaping the art world and creating new opportunities for artists.",
-    image: "https://picsum.photos/seed/article1/600/400",
-    date: "2024-01-15",
-    category: "Technology"
-  },
-  {
-    id: "article2",
-    title: "Contemporary Art Trends 2024",
-    excerpt: "Discover the emerging trends that are defining contemporary art in the digital age.",
-    image: "https://picsum.photos/seed/article2/600/400", 
-    date: "2024-01-10",
-    category: "Trends"
-  },
-  {
-    id: "article3",
-    title: "Artist Spotlight: Sarah Chen",
-    excerpt: "An in-depth look at the innovative techniques and bold vision of contemporary artist Sarah Chen.",
-    image: "https://picsum.photos/seed/article3/600/400",
-    date: "2024-01-05",
-    category: "Spotlight"
   }
 ]; 

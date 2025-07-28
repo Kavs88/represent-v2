@@ -11,6 +11,7 @@ import PerformanceMonitor from '@/components/ui/PerformanceMonitor'
 import LoadingOptimizer from '@/components/ui/LoadingOptimizer'
 import { CursorProvider } from '@/components/ui/CursorContext'
 import { CustomCursor } from '@/components/ui/CustomCursor'
+import { MobileOptimizer } from '@/components/ui/MobileOptimizer'
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 // Lora is now self-hosted via CSS
@@ -101,14 +102,16 @@ export default function RootLayout({
         <PerformanceMonitor />
         <LoadingOptimizer />
         <CursorProvider>
-          <CustomCursor />
-          <GlobalMotionWrapper>
-            <Header />
-            <PageTransitionWrapper>
-              <main className="flex-grow" id="main-content">{children}</main>
-            </PageTransitionWrapper>
-            <Footer />
-          </GlobalMotionWrapper>
+          <MobileOptimizer>
+            <CustomCursor />
+            <GlobalMotionWrapper>
+              <Header />
+              <PageTransitionWrapper>
+                <main className="flex-grow" id="main-content">{children}</main>
+              </PageTransitionWrapper>
+              <Footer />
+            </GlobalMotionWrapper>
+          </MobileOptimizer>
         </CursorProvider>
       </body>
     </html>

@@ -23,7 +23,7 @@ export default function ArtistFilterableGrid({ artists, allTags }: { artists: Ar
   return (
     <div>
       {/* Search and Filter UI here */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8 mt-8">
+      <div className="mobile-grid mt-8">
         {filteredArtists.map(artist => <ArtistCard key={artist.id} artist={artist} />)}
       </div>
     </div>

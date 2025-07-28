@@ -29,7 +29,7 @@ export function ArtistCard({ artist, themeColor, forceTwoLineName = false }: { a
   return (
     <Link
       href={`/artists/${artist.id}`}
-      className="group block rounded-xl border border-border shadow-lg overflow-hidden w-full max-w-xs min-h-[400px] flex-1 flex flex-col justify-between bg-card transition-all duration-300 hover:shadow-2xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2 focus:ring-offset-background px-6 py-6 h-full cursor-pointer"
+      className="group block rounded-xl border border-border shadow-lg overflow-hidden w-full max-w-xs min-h-[350px] sm:min-h-[400px] flex-1 flex flex-col justify-between bg-card transition-all duration-300 hover:shadow-2xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2 focus:ring-offset-background px-4 sm:px-6 py-4 sm:py-6 h-full cursor-pointer mobile-card"
       style={{ 
         background: artist.fields.ThemePrimaryColor || themeColor || 'var(--card, #18181b)',
         boxShadow: `0 4px 6px -1px ${shadowColor}, 0 2px 4px -1px ${shadowColor}`
@@ -58,7 +58,7 @@ export function ArtistCard({ artist, themeColor, forceTwoLineName = false }: { a
       {/* Middle: Name, Speciality, Tags */}
       <div className="flex-1 flex flex-col items-center justify-center gap-y-2">
         <h3 
-          className="text-xl sm:text-2xl md:text-3xl font-extrabold text-center leading-tight tracking-tight" 
+          className="mobile-heading font-extrabold text-center leading-tight tracking-tight" 
           style={{ 
             color: textColor, 
             textShadow: textColor === '#ffffff' ? '0 2px 8px rgba(0,0,0,0.25)' : '0 2px 8px rgba(255,255,255,0.15)'
@@ -75,7 +75,7 @@ export function ArtistCard({ artist, themeColor, forceTwoLineName = false }: { a
         </h3>
         {artist.fields.Speciality && (
           <p 
-            className="text-sm sm:text-base md:text-lg text-center leading-tight opacity-80 font-medium" 
+            className="mobile-text text-center leading-tight opacity-80 font-medium" 
             style={{ 
               color: textColor, 
               textShadow: textColor === '#ffffff' ? '0 1px 2px rgba(0,0,0,0.15)' : '0 1px 2px rgba(255,255,255,0.10)'
